@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anca Crăciunică — E-commerce & UX</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: #0D1B2A; font-family: 'DM Sans', sans-serif; color: #F5F0E8; overflow-x: hidden; cursor: none; }
+
+  /* --- CURSOR --- */
+  .cursor { position: fixed; width: 10px; height: 10px; background: #B8FF4F; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+  .cursor-trail { position: fixed; width: 6px; height: 6px; background: #B8FF4F; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); }
+
+  /* --- CONFETTI --- */
+  .confetti-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9997; }
+  .confetti-piece { position: absolute; width: 8px; height: 8px; opacity: 0; animation: confettiFall 1.2s ease-in forwards; }
+  @keyframes confettiFall {
+    0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+    100% { opacity: 0; transform: translateY(400px) rotate(720deg); }
+  }
+
+  /* --- EASTER EGG MSG --- */
+  .easter-msg {
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+    background: #131F2E; border: 0.5px solid rgba(184,255,79,0.4);
+    color: #B8FF4F; font-size: 13px; padding: 12px 28px;
+    border-radius: 100px; opacity: 0; transition: opacity 0.4s;
+    pointer-events: none; z-index: 9999; white-space: nowrap;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .easter-msg.show { opacity: 1; }
+
+  /* --- NAV --- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 64px;
+    background: rgba(13,27,42,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid rgba(245,240,232,0.1);
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px; color: #F5F0E8; letter-spacing: -0.5px;
+    cursor: pointer; transition: color 0.2s; user-select: none;
+  }
+  .nav-logo:hover { color: #B8FF4F; }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    color: rgba(245,240,232,0.55); text-decoration: none;
+    font-size: 14px; font-weight: 300; letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: #B8FF4F; }
+
+  /* --- HERO --- */
+  .hero-wrapper { position: relative; overflow: hidden; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+  canvas#particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  .hero { padding: 140px 64px 80px; max-width: 960px; position: relative; z-index: 1; }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 400; letter-spacing: 2px;
+    color: #B8FF4F; text-transform: uppercase; margin-bottom: 36px;
+  }
+  .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: #B8FF4F; }
+
+  .hero-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(60px, 9vw, 100px);
+    line-height: 1.0; letter-spacing: -3px; color: #F5F0E8; margin-bottom: 28px;
+  }
+  .cursor-blink {
+    display: inline-block; width: 5px; height: 0.82em;
+    background: #B8FF4F; margin-left: 6px; vertical-align: middle;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+  .hero-bio {
+    font-size: 19px; font-weight: 300; line-height: 1.65;
+    color: rgba(245,240,232,0.65); max-width: 580px; margin-bottom: 48px;
+    min-height: 90px;
+  }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 52px; }
+  .tag {
+    padding: 7px 18px; border: 0.5px solid rgba(245,240,232,0.25);
+    border-radius: 100px; font-size: 13px; color: rgba(245,240,232,0.6); font-weight: 300;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .tag:hover { border-color: rgba(245,240,232,0.5); color: #F5F0E8; }
+  .tag.accent { border-color: #B8FF4F; color: #B8FF4F; }
+  .tag.accent:hover { background: rgba(184,255,79,0.08); }
+
+  .hero-cta { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 15px 32px; background: transparent; color: #B8FF4F;
+    font-size: 14px; font-weight: 500; border: 1.5px solid #B8FF4F;
+    cursor: pointer; letter-spacing: 0.5px; font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-primary:hover { background: #B8FF4F; color: #0D1B2A; }
+  .btn-ghost {
+    padding: 15px 32px; background: transparent; color: rgba(245,240,232,0.7);
+    font-size: 14px; font-weight: 300; border: 0.5px solid rgba(245,240,232,0.25);
+    cursor: pointer; letter-spacing: 0.3px; font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: rgba(245,240,232,0.6); color: #F5F0E8; }
+
+  /* --- STATS BAR --- */
+  .stats-bar {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: 0.5px solid rgba(245,240,232,0.12);
+    border-bottom: 0.5px solid rgba(245,240,232,0.12);
+    position: relative; z-index: 1;
+  }
+  .stat { padding: 40px 64px; border-right: 0.5px solid rgba(245,240,232,0.12); }
+  .stat:last-child { border-right: none; }
+  .stat-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px; color: #F5F0E8; letter-spacing: -1px; margin-bottom: 8px;
+  }
+  .stat-number span { color: #B8FF4F; }
+  .stat-label { font-size: 12px; color: rgba(245,240,232,0.4); font-weight: 300; letter-spacing: 0.5px; line-height: 1.5; }
+
+  /* --- WORK SECTION --- */
+  .work-section { padding: 96px 64px 0; }
+  .section-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 2.5px;
+    text-transform: uppercase; color: rgba(245,240,232,0.3); margin-bottom: 48px;
+  }
+  .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+
+  .work-card {
+    background: #111C2B; padding: 48px;
+    cursor: pointer; position: relative; overflow: hidden;
+    transition: background 0.3s;
+  }
+  .work-card:hover { background: #142234; }
+  .shimmer {
+    position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(184,255,79,0.05), transparent);
+    pointer-events: none;
+  }
+  .work-card:hover .shimmer { animation: shimmerSlide 0.7s ease forwards; }
+  @keyframes shimmerSlide { from { left: -100%; } to { left: 150%; } }
+  .work-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px; background: #B8FF4F; transition: width 0.35s ease;
+  }
+  .work-card:hover::after { width: 100%; }
+
+  .work-card-tag { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #B8FF4F; margin-bottom: 18px; font-weight: 400; }
+  .work-card-title { font-family: 'DM Serif Display', serif; font-size: 28px; color: #F5F0E8; margin-bottom: 14px; letter-spacing: -0.5px; line-height: 1.2; }
+  .work-card-desc { font-size: 14px; color: rgba(245,240,232,0.45); font-weight: 300; line-height: 1.7; margin-bottom: 32px; }
+  .work-card-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+  .meta-pill { font-size: 11px; color: rgba(245,240,232,0.3); border: 0.5px solid rgba(245,240,232,0.12); padding: 4px 12px; border-radius: 100px; }
+
+  .work-card.featured {
+    grid-column: span 2;
+    background: #0D1B2A;
+    border: 0.5px solid rgba(184,255,79,0.25);
+    display: grid; grid-template-columns: 1fr auto; gap: 64px; align-items: center;
+  }
+  .work-card.featured::after { display: none; }
+  .work-card.featured:hover { background: #0f1f30; border-color: rgba(184,255,79,0.5); }
+  .featured-stat { text-align: right; flex-shrink: 0; }
+  .featured-big-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 80px; color: #B8FF4F; letter-spacing: -4px; line-height: 1;
+  }
+  .featured-big-label { font-size: 13px; color: rgba(245,240,232,0.35); margin-top: 10px; }
+
+  /* --- ABOUT SECTION --- */
+  .about-section { background: #F5F0E8; color: #0D1B2A; padding: 96px 64px; margin-top: 96px; }
+  .section-label-dark { font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(13,27,42,0.3); margin-bottom: 56px; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .about-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: 44px; color: #0D1B2A; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 28px;
+  }
+  .about-headline em { font-style: italic; }
+  .about-body { font-size: 16px; color: rgba(13,27,42,0.6); line-height: 1.8; font-weight: 300; margin-bottom: 22px; }
+  .about-award {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 0.5px solid rgba(13,27,42,0.2); padding: 10px 18px;
+    font-size: 13px; color: rgba(13,27,42,0.6); font-weight: 300; margin-top: 8px;
+  }
+  .about-award::before { content: '✦'; color: #0D1B2A; font-size: 12px; }
+
+  .about-skills { display: flex; flex-direction: column; }
+  .skill-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 0; border-bottom: 0.5px solid rgba(13,27,42,0.08);
+  }
+  .skill-row:first-child { border-top: 0.5px solid rgba(13,27,42,0.08); }
+  .skill-name { font-size: 15px; color: #0D1B2A; font-weight: 400; }
+  .skill-tools { font-size: 12px; color: rgba(13,27,42,0.38); font-weight: 300; text-align: right; max-width: 200px; line-height: 1.5; }
+
+  /* --- CONTACT STRIP --- */
+  .contact-strip {
+    padding: 80px 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 0.5px solid rgba(245,240,232,0.1);
+  }
+  .contact-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: 48px; color: #F5F0E8; letter-spacing: -2px; line-height: 1.1;
+  }
+  .contact-headline em { font-style: italic; color: #B8FF4F; }
+  .contact-right { display: flex; flex-direction: column; gap: 16px; align-items: flex-end; }
+  .contact-link {
+    font-size: 15px; color: rgba(245,240,232,0.5); text-decoration: none;
+    font-weight: 300; transition: color 0.2s;
+  }
+  .contact-link:hover { color: #B8FF4F; }
+
+  /* --- FOOTER --- */
+  footer {
+    padding: 32px 64px; border-top: 0.5px solid rgba(245,240,232,0.08);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy { font-size: 12px; color: rgba(245,240,232,0.25); font-weight: 300; }
+  .footer-links { display: flex; gap: 28px; }
+  .footer-links a { font-size: 12px; color: rgba(245,240,232,0.25); text-decoration: none; font-weight: 300; transition: color 0.2s; }
+  .footer-links a:hover { color: #B8FF4F; }
+
+  /* --- SCROLL FADE IN --- */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .hero { padding: 120px 24px 60px; }
+    .stats-bar { grid-template-columns: 1fr 1fr; }
+    .stat { padding: 28px 24px; }
+    .work-section { padding: 64px 24px 0; }
+    .work-grid { grid-template-columns: 1fr; }
+    .work-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+    .featured-stat { text-align: left; }
+    .about-section { padding: 64px 24px; }
+    .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    .contact-strip { flex-direction: column; gap: 40px; padding: 64px 24px; }
+    .contact-right { align-items: flex-start; }
+    footer { padding: 24px; flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="confetti-container" id="confetti"></div>
+<div class="easter-msg" id="easterMsg">✦ you found me — let's build something together</div>
+
+<nav>
+  <div class="nav-logo" id="logoBtn">Anca.</div>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#">CV</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero-wrapper">
+  <canvas id="particles"></canvas>
+  <section class="hero">
+    <div class="hero-eyebrow">Available for opportunities in Spain & Remote</div>
+    <h1 class="hero-name">Anca<br>Crăciunică<span class="cursor-blink"></span></h1>
+    <p class="hero-bio" id="typedBio"></p>
+    <div class="hero-tags">
+      <span class="tag accent">E-commerce</span>
+      <span class="tag accent">Digital Marketing</span>
+      <span class="tag accent">CRO</span>
+      <span class="tag">UX Research</span>
+      <span class="tag">AI & VR</span>
+      <span class="tag">Meta Ads</span>
+      <span class="tag">Shopify</span>
+    </div>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">View work</button>
+      <button class="btn-ghost">Read my research</button>
+    </div>
+  </section>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar" id="statsBar">
+  <div class="stat fade-in">
+    <div class="stat-number" data-target="1076" data-suffix="×">0×</div>
+    <div class="stat-label">Peak ROAS,<br>Meta campaign</div>
+  </div>
+  <div class="stat fade-in">
+    <div class="stat-number" data-target="660" data-suffix="%">0%</div>
+    <div class="stat-label">Instagram<br>growth</div>
+  </div>
+  <div class="stat fade-in">
+    <div class="stat-number" data-target="76" data-suffix="M" data-decimal="true">0M</div>
+    <div class="stat-label">Meta views<br>delivered</div>
+  </div>
+  <div class="stat fade-in">
+    <div class="stat-number" data-target="274" data-suffix="%">0+</div>
+    <div class="stat-label">Email conversion rate<br>(industry avg: 2.1–2.5%)</div>
+  </div>
+</div>
+
+<!-- WORK -->
+<div class="work-section" id="work">
+  <div class="section-label">Selected work</div>
+  <div class="work-grid">
+
+    <div class="work-card featured fade-in" onclick="window.location.href='powerhouse.html'">
+      <div class="shimmer"></div>
+      <div>
+        <div class="work-card-tag">E-commerce & Marketing</div>
+        <div class="work-card-title">Powerhouse — Full digital ownership</div>
+        <div class="work-card-desc">Sole e-commerce and marketing operator for Jersey's largest retailer. Campaigns, platform redevelopment UAT, ERP troubleshooting, 2,000+ product uploads across multiple categories.</div>
+        <div class="work-card-meta">
+          <span class="meta-pill">Meta Ads</span>
+          <span class="meta-pill">Shopify</span>
+          <span class="meta-pill">SEO</span>
+          <span class="meta-pill">UAT Lead</span>
+          <span class="meta-pill">ERP</span>
+        </div>
+      </div>
+      <div class="featured-stat">
+        <div class="featured-big-number">230×</div>
+        <div class="featured-big-label">Peak ROAS achieved</div>
+      </div>
+    </div>
+
+    <div class="work-card fade-in" style="cursor:pointer;" onclick="window.location.href='biovrium.html'">
+      <div class="shimmer"></div>
+      <div class="work-card-tag">VR + AI Research</div>
+      <div class="work-card-title">BioVRium</div>
+      <div class="work-card-desc">Generative AI in Virtual Reality for microbiology education. Built in Unreal Engine 5.3.2 with CONVAI-powered AI characters. Two studies, statistically significant results — p=.026, r=0.47.</div>
+      <div class="work-card-meta">
+        <span class="meta-pill">UX Research</span>
+        <span class="meta-pill">Unreal Engine 5</span>
+        <span class="meta-pill">CONVAI</span>
+        <span class="meta-pill">Data Analysis</span>
+      </div>
+    </div>
+
+    <div class="work-card fade-in" style="cursor:pointer;" onclick="window.location.href='househive.html'">
+      <div class="shimmer"></div>
+      <div class="work-card-tag">UX Design</div>
+      <div class="work-card-title">HouseHive</div>
+      <div class="work-card-desc">Security-first property platform redesign addressing ethical gaps in floorplan visibility. OTP authentication, transparent privacy policies, dark-pattern-free design.</div>
+      <div class="work-card-meta">
+        <span class="meta-pill">Figma</span>
+        <span class="meta-pill">Balsamiq</span>
+        <span class="meta-pill">User Testing</span>
+        <span class="meta-pill">Security UX</span>
+      </div>
+    </div>
+
+    <div class="work-card fade-in" style="grid-column: span 2; cursor:pointer;" onclick="window.location.href='uwlemap.html'">
+      <div class="shimmer"></div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;">
+        <div>
+          <div class="work-card-tag">Campus Navigation · UX</div>
+          <div class="work-card-title">UWL E-Map</div>
+          <div class="work-card-desc">Intuitive campus navigation app for University of West London. Personalised course-based mapping, accessible design. 60%+ of users said they'd adopt the solution.</div>
+          <div class="work-card-meta">
+            <span class="meta-pill">Axure</span>
+            <span class="meta-pill">Miro</span>
+            <span class="meta-pill">Usability Testing</span>
+          </div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-family: 'DM Serif Display', serif; font-size: 64px; color: rgba(245,240,232,0.15); letter-spacing: -3px; line-height: 1;">60%</div>
+          <div style="font-size: 13px; color: rgba(245,240,232,0.3); margin-top: 8px;">user adoption intent</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="work-card fade-in" style="cursor:pointer;" onclick="window.location.href='elefantro.html'">
+      <div class="shimmer"></div>
+      <div class="work-card-tag">E-commerce · CRO · Passion Project</div>
+      <div class="work-card-title">Elefant.ro</div>
+      <div class="work-card-desc">Self-initiated redesign of Romania's largest online bookstore — conversion mechanics, discovery features, and visual hierarchy improvements. Done in a day, for fun.</div>
+      <div class="work-card-meta">
+        <span class="meta-pill">Figma</span>
+        <span class="meta-pill">Balsamiq</span>
+        <span class="meta-pill">CRO</span>
+      </div>
+    </div>
+  </div>
+
+    <div class="work-card fade-in" style="cursor:pointer;" onclick="window.location.href='spiderbrave.html'">
+      <div class="shimmer"></div>
+      <div class="work-card-tag">VR Development · Serious Game · Psychology</div>
+      <div class="work-card-title">SpiderBrave</div>
+      <div class="work-card-desc">A VR exposure therapy game for arachnophobia. Three graduated levels, a literature review on therapeutic principles, and one real participant with arachnophobia who confirmed the design worked.</div>
+      <div class="work-card-meta">
+        <span class="meta-pill">Unreal Engine</span>
+        <span class="meta-pill">Serious Game</span>
+        <span class="meta-pill">Therapy</span>
+      </div>
+    </div>
+
+</div>
+
+<!-- ABOUT -->
+<section class="about-section fade-in" id="about">
+  <div class="section-label-dark">About</div>
+  <div class="about-grid">
+    <div>
+      <h2 class="about-headline">Two disciplines.<br><em>One brain.</em></h2>
+      <p class="about-body">I started in UX research and VR development. I ended up running e-commerce and digital marketing for a major retailer — alone, from scratch, with results that surprised everyone including me.</p>
+      <p class="about-body">Now I'm looking for a role in Spain that wants both halves. The one that reads the data and the one that writes the campaign.</p>
+      <p class="about-body">Romanian and Italian native. English C2. Learning Spanish.</p>
+      <div class="about-award">BCS London West Branch Prize, 2024</div>
+    </div>
+    <div class="about-skills">
+      <div class="skill-row"><span class="skill-name">E-commerce & CRO</span><span class="skill-tools">Shopify · Meta Ads · GA4</span></div>
+      <div class="skill-row"><span class="skill-name">Paid Social</span><span class="skill-tools">Meta Business Suite · ROAS optimisation</span></div>
+      <div class="skill-row"><span class="skill-name">UX Research</span><span class="skill-tools">SUS · Mann-Whitney U · crossover studies</span></div>
+      <div class="skill-row"><span class="skill-name">VR Development</span><span class="skill-tools">Unreal Engine 5 · CONVAI · AI characters</span></div>
+      <div class="skill-row"><span class="skill-name">Design</span><span class="skill-tools">Figma · Canva · Adobe Suite</span></div>
+      <div class="skill-row"><span class="skill-name">Languages</span><span class="skill-tools">Romanian · Italian · English C2 · Spanish</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-strip fade-in" id="contact">
+  <div class="contact-headline">Let's build<br>something<br><em>together.</em></div>
+  <div class="contact-right">
+    <a href="mailto:hello@itsanca.com" class="contact-link">hello@itsanca.com</a>
+    <a href="https://www.linkedin.com/in/anca-craciunica" class="contact-link" target="_blank">LinkedIn</a>
+    <a href="#" class="contact-link">Download CV</a>
+    <a href="#" class="contact-link">Read my research</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-copy">© 2025 Anca Crăciunică</div>
+  <div class="footer-links">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#">CV</a>
+    <a href="mailto:hello@itsanca.com">Email</a>
+  </div>
+</footer>
+
+<script>
+  /* --- CURSOR TRAIL --- */
+  const cursor = document.getElementById('cursor');
+  const trails = [];
+  for(let i = 0; i < 8; i++) {
+    const t = document.createElement('div');
+    t.className = 'cursor-trail';
+    document.body.appendChild(t);
+    trails.push({ el: t, x: 0, y: 0 });
+  }
+  let mouseX = 0, mouseY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+  let trailPos = Array(8).fill({ x: 0, y: 0 });
+  function animateTrail() {
+    trailPos = trailPos.map((pos, i) => {
+      const prev = i === 0 ? { x: mouseX, y: mouseY } : trailPos[i - 1];
+      const nx = pos.x + (prev.x - pos.x) * 0.35;
+      const ny = pos.y + (prev.y - pos.y) * 0.35;
+      trails[i].el.style.left = nx + 'px';
+      trails[i].el.style.top = ny + 'px';
+      trails[i].el.style.opacity = (1 - i / 8) * 0.45;
+      trails[i].el.style.transform = `translate(-50%,-50%) scale(${1 - i * 0.08})`;
+      return { x: nx, y: ny };
+    });
+    requestAnimationFrame(animateTrail);
+  }
+  animateTrail();
+
+  /* --- PARTICLES --- */
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  function resizeCanvas() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  const pts = Array.from({ length: 50 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.25,
+    vy: (Math.random() - 0.5) * 0.25,
+    r: Math.random() * 1.5 + 0.4
+  }));
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pts.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height;
+      if (p.y > canvas.height) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(184,255,79,0.2)';
+      ctx.fill();
+    });
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+
+  /* --- TYPING EFFECT --- */
+  const bioText = "E-commerce strategist and UX researcher who builds things that work — commercially and humanly. BCS Award Winner. First Class, Creative Computing.";
+  let bioIndex = 0;
+  const bioEl = document.getElementById('typedBio');
+  function typeBio() {
+    if (bioIndex < bioText.length) {
+      bioEl.textContent += bioText[bioIndex];
+      bioIndex++;
+      setTimeout(typeBio, 22);
+    }
+  }
+  setTimeout(typeBio, 600);
+
+  /* --- STAT COUNTER --- */
+  const statEls = document.querySelectorAll('.stat-number[data-target]');
+  let statsAnimated = false;
+  function animateStats() {
+    if (statsAnimated) return;
+    statsAnimated = true;
+    statEls.forEach(el => {
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix;
+      const isDecimal = el.dataset.decimal === 'true';
+      const duration = 2000;
+      const start = performance.now();
+      function update(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const val = Math.round(eased * target);
+        if (isDecimal) {
+          el.innerHTML = (val / 10).toFixed(1) + '<span>' + suffix + '</span>';
+        } else {
+          el.innerHTML = val.toLocaleString() + '<span>' + suffix + '</span>';
+        }
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    });
+  }
+  const statsObserver = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) animateStats();
+  }, { threshold: 0.3 });
+  statsObserver.observe(document.getElementById('statsBar'));
+
+  /* --- FADE IN ON SCROLL --- */
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const fadeObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  fadeEls.forEach(el => fadeObserver.observe(el));
+
+  /* --- EASTER EGG --- */
+  document.getElementById('logoBtn').addEventListener('click', () => {
+    const container = document.getElementById('confetti');
+    const colors = ['#B8FF4F', '#F5F0E8', '#ffffff', '#aaffaa', '#0D1B2A'];
+    for (let i = 0; i < 80; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = (10 + Math.random() * 80) + 'vw';
+      piece.style.top = '70px';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      piece.style.animationDelay = (Math.random() * 0.5) + 's';
+      piece.style.animationDuration = (0.9 + Math.random() * 0.7) + 's';
+      container.appendChild(piece);
+      setTimeout(() => piece.remove(), 2500);
+    }
+    const msg = document.getElementById('easterMsg');
+    msg.classList.add('show');
+    setTimeout(() => msg.classList.remove('show'), 3500);
+  });
+</script>
+</body>
+</html>
