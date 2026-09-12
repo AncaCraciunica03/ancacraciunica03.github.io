@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Powerhouse / Anca Crăciunică</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: #0D1B2A; font-family: 'DM Sans', sans-serif; color: #F5F0E8; cursor: none; overflow-x: hidden; }
+.cursor { position: fixed; width: 10px; height: 10px; background: #B8FF4F; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 24px 64px; background: rgba(13,27,42,0.92); backdrop-filter: blur(12px); border-bottom: 0.5px solid rgba(245,240,232,0.1); }
+.nav-logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: #F5F0E8; text-decoration: none; transition: color 0.2s; }
+.nav-logo:hover { color: #B8FF4F; }
+.nav-back { font-size: 13px; color: rgba(245,240,232,0.5); text-decoration: none; font-weight: 300; display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+.nav-back:hover { color: #B8FF4F; }
+.nav-back::before { content: '←'; }
+
+.hero { padding: 140px 64px 0; border-bottom: 0.5px solid rgba(245,240,232,0.1); }
+.case-tag { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #B8FF4F; margin-bottom: 20px; font-weight: 400; }
+.case-title { font-family: 'DM Serif Display', serif; font-size: clamp(44px, 7vw, 80px); line-height: 1.0; letter-spacing: -2px; color: #F5F0E8; margin-bottom: 28px; }
+.case-subtitle { font-size: 19px; font-weight: 300; color: rgba(245,240,232,0.6); max-width: 620px; line-height: 1.7; margin-bottom: 56px; }
+.meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 0.5px solid rgba(245,240,232,0.12); }
+.meta-item { padding: 28px 32px 28px 0; border-right: 0.5px solid rgba(245,240,232,0.12); margin-right: 32px; }
+.meta-item:last-child { border-right: none; margin-right: 0; }
+.meta-label { font-size: 11px; color: rgba(245,240,232,0.35); font-weight: 300; margin-bottom: 8px; }
+.meta-value { font-size: 14px; color: #F5F0E8; font-weight: 400; line-height: 1.5; }
+
+.stats-strip { display: grid; grid-template-columns: repeat(5, 1fr); border-bottom: 0.5px solid rgba(245,240,232,0.1); }
+.stat-cell { padding: 40px 48px; border-right: 0.5px solid rgba(245,240,232,0.1); }
+.stat-cell:last-child { border-right: none; }
+.stat-num { font-family: 'DM Serif Display', serif; font-size: 36px; color: #F5F0E8; letter-spacing: -1px; margin-bottom: 6px; line-height: 1; }
+.stat-num span { color: #B8FF4F; }
+.stat-lbl { font-size: 12px; color: rgba(245,240,232,0.4); font-weight: 300; line-height: 1.5; }
+
+.content-wrap { max-width: 780px; margin: 0 auto; padding: 80px 64px; }
+.section-title { font-family: 'DM Serif Display', serif; font-size: 30px; color: #F5F0E8; margin-bottom: 18px; letter-spacing: -0.5px; line-height: 1.2; }
+.section-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #B8FF4F; margin-bottom: 16px; font-weight: 400; }
+.body-text { font-size: 16px; color: rgba(245,240,232,0.65); line-height: 1.85; font-weight: 300; margin-bottom: 20px; max-width: 680px; }
+.body-text strong { color: #F5F0E8; font-weight: 500; }
+.section-block { margin-bottom: 64px; }
+
+/* BEFORE AFTER INFOGRAPHIC */
+.before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 32px 0; }
+.ba-col { padding: 32px; }
+.ba-col.before { background: rgba(245,240,232,0.04); }
+.ba-col.after { background: #111C2B; }
+.ba-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(245,240,232,0.3); margin-bottom: 20px; }
+.ba-label.after-label { color: #B8FF4F; }
+.ba-item { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.ba-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.ba-dot.bad { background: rgba(245,240,232,0.2); }
+.ba-dot.good { background: #B8FF4F; }
+.ba-text { font-size: 14px; color: rgba(245,240,232,0.55); font-weight: 300; }
+.ba-text.good { color: rgba(245,240,232,0.85); }
+.ba-stat { font-family: 'DM Serif Display', serif; font-size: 28px; color: #B8FF4F; margin-bottom: 4px; }
+.ba-stat-label { font-size: 12px; color: rgba(245,240,232,0.4); font-weight: 300; }
+
+/* EMAIL INFOGRAPHIC */
+.email-infographic { background: #111C2B; padding: 36px; margin: 32px 0; }
+.email-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; }
+.email-title { font-family: 'DM Serif Display', serif; font-size: 20px; color: #F5F0E8; }
+.email-subtitle { font-size: 13px; color: rgba(245,240,232,0.4); font-weight: 300; margin-top: 4px; }
+.subscriber-bar { margin-bottom: 28px; }
+.subscriber-label { display: flex; justify-content: space-between; font-size: 12px; color: rgba(245,240,232,0.4); margin-bottom: 8px; }
+.subscriber-track { height: 8px; background: rgba(245,240,232,0.08); position: relative; }
+.subscriber-fill { height: 100%; background: #B8FF4F; width: 0; transition: width 1.4s cubic-bezier(0.16,1,0.3,1); }
+.subscriber-start { position: absolute; left: 0; top: -20px; font-size: 11px; color: rgba(245,240,232,0.3); }
+.subscriber-end { position: absolute; right: 0; top: -20px; font-size: 11px; color: #B8FF4F; }
+.conversion-compare { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+.conv-cell { padding: 20px 16px; background: rgba(245,240,232,0.04); }
+.conv-cell.highlight { background: rgba(184,255,79,0.08); border: 0.5px solid rgba(184,255,79,0.3); }
+.conv-num { font-family: 'DM Serif Display', serif; font-size: 24px; color: #F5F0E8; margin-bottom: 4px; }
+.conv-num.green { color: #B8FF4F; }
+.conv-label { font-size: 11px; color: rgba(245,240,232,0.35); font-weight: 300; line-height: 1.4; }
+
+/* THREE PILLARS */
+.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin: 40px 0; }
+.pillar { background: #111C2B; padding: 36px 32px; position: relative; overflow: hidden; opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.pillar.visible { opacity: 1; transform: translateY(0); }
+.pillar:nth-child(2) { transition-delay: 0.15s; }
+.pillar:nth-child(3) { transition-delay: 0.3s; }
+.pillar::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #B8FF4F; }
+.pillar-number { font-family: 'DM Serif Display', serif; font-size: 52px; color: rgba(184,255,79,0.1); line-height: 1; margin-bottom: 16px; letter-spacing: -2px; }
+.pillar-title { font-family: 'DM Serif Display', serif; font-size: 20px; color: #F5F0E8; margin-bottom: 12px; }
+.pillar-body { font-size: 14px; color: rgba(245,240,232,0.5); font-weight: 300; line-height: 1.6; }
+
+/* REACH HERO */
+.reach-hero { background: #111C2B; padding: 64px; margin: 0; text-align: center; }
+.reach-hero-number { font-family: 'DM Serif Display', serif; font-size: clamp(72px, 12vw, 140px); color: #B8FF4F; letter-spacing: -4px; line-height: 1; margin-bottom: 8px; }
+.reach-hero-label { font-size: 18px; color: rgba(245,240,232,0.6); font-weight: 300; margin-bottom: 24px; }
+.reach-hero-context { font-size: 14px; color: rgba(245,240,232,0.35); font-weight: 300; }
+.reach-hero-context strong { color: rgba(245,240,232,0.6); font-weight: 400; }
+
+/* FULL WIDTH CAROUSEL */
+.carousel-section { padding: 80px 0; border-top: 0.5px solid rgba(245,240,232,0.1); }
+.carousel-header { padding: 0 64px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+.carousel-header-left .section-label { margin-bottom: 8px; }
+.carousel-header-left .section-title { margin-bottom: 0; }
+.carousel-note { font-size: 13px; color: rgba(245,240,232,0.35); font-weight: 300; font-style: italic; }
+.carousel-nav { display: flex; gap: 8px; align-items: center; }
+.carousel-btn { width: 44px; height: 44px; border: 0.5px solid rgba(245,240,232,0.25); background: transparent; color: #F5F0E8; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, color 0.2s; }
+.carousel-btn:hover { border-color: #B8FF4F; color: #B8FF4F; }
+.carousel-btn:disabled { opacity: 0.3; cursor: default; }
+
+.carousel-viewport { overflow: hidden; }
+.carousel-track { display: flex; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+.video-slide { min-width: 100%; display: grid; grid-template-columns: 1fr 1fr; }
+.video-slide-left { background: #111C2B; padding: 64px; display: flex; flex-direction: column; justify-content: space-between; }
+.video-slide-right { background: #0F1E2E; padding: 64px; display: flex; flex-direction: column; justify-content: center; }
+.video-views-big { font-family: 'DM Serif Display', serif; font-size: clamp(64px, 10vw, 120px); color: #B8FF4F; letter-spacing: -3px; line-height: 1; margin-bottom: 8px; }
+.video-views-sub { font-size: 13px; color: rgba(245,240,232,0.35); font-weight: 300; margin-bottom: 32px; }
+.video-slide-desc { font-size: 17px; color: rgba(245,240,232,0.75); font-weight: 300; line-height: 1.7; margin-bottom: 28px; }
+.video-pillars { display: flex; gap: 8px; flex-wrap: wrap; }
+.pillar-tag { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 12px; border: 0.5px solid; }
+.pillar-tag.humanise { border-color: rgba(184,255,79,0.5); color: #B8FF4F; }
+.pillar-tag.trust { border-color: rgba(74,144,217,0.5); color: #4A90D9; }
+.pillar-tag.sales { border-color: rgba(245,240,232,0.3); color: rgba(245,240,232,0.6); }
+.slide-counter { font-size: 13px; color: rgba(245,240,232,0.3); font-weight: 300; }
+.slide-counter strong { color: #F5F0E8; }
+.carousel-progress { padding: 0 64px; margin-top: 24px; display: flex; gap: 4px; }
+.progress-dot { flex: 1; height: 2px; background: rgba(245,240,232,0.12); cursor: pointer; transition: background 0.2s; }
+.progress-dot.active { background: #B8FF4F; }
+
+/* CAMPAIGNS */
+.campaigns-section { padding: 80px 64px; border-top: 0.5px solid rgba(245,240,232,0.1); }
+.campaign-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 40px; }
+.campaign-card { background: #111C2B; padding: 36px; position: relative; overflow: hidden; }
+.campaign-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: #B8FF4F; transition: width 0.3s; }
+.campaign-card:hover::after { width: 100%; }
+.campaign-result-badge { font-family: 'DM Serif Display', serif; font-size: 36px; color: #B8FF4F; letter-spacing: -1px; margin-bottom: 4px; }
+.campaign-result-sub { font-size: 12px; color: rgba(245,240,232,0.35); font-weight: 300; margin-bottom: 20px; }
+.campaign-name { font-size: 16px; color: #F5F0E8; font-weight: 500; margin-bottom: 10px; }
+.campaign-body { font-size: 14px; color: rgba(245,240,232,0.5); font-weight: 300; line-height: 1.7; }
+
+/* RESULTS */
+.results-section { padding: 80px 64px; border-top: 0.5px solid rgba(245,240,232,0.1); }
+.results-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 40px; }
+.results-block { background: #111C2B; padding: 36px; }
+.results-block-title { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(245,240,232,0.35); margin-bottom: 20px; }
+.result-line { display: flex; align-items: baseline; gap: 12px; padding: 14px 0; border-bottom: 0.5px solid rgba(245,240,232,0.06); }
+.result-line:first-of-type { border-top: 0.5px solid rgba(245,240,232,0.06); }
+.result-num { font-family: 'DM Serif Display', serif; font-size: 22px; color: #B8FF4F; min-width: 80px; flex-shrink: 0; }
+.result-desc { font-size: 14px; color: rgba(245,240,232,0.55); font-weight: 300; line-height: 1.5; }
+
+/* TAKEAWAY */
+.takeaway { padding: 80px 64px; border-top: 0.5px solid rgba(245,240,232,0.1); }
+.takeaway-headline { font-family: 'DM Serif Display', serif; font-size: clamp(24px, 3vw, 36px); color: #F5F0E8; line-height: 1.3; letter-spacing: -0.5px; max-width: 700px; margin-bottom: 32px; }
+.takeaway-headline em { font-style: italic; color: #B8FF4F; }
+.takeaway-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 40px; }
+.takeaway-stat { background: #111C2B; padding: 28px 24px; }
+.takeaway-stat-num { font-family: 'DM Serif Display', serif; font-size: 32px; color: #B8FF4F; margin-bottom: 6px; letter-spacing: -1px; }
+.takeaway-stat-label { font-size: 12px; color: rgba(245,240,232,0.4); font-weight: 300; line-height: 1.5; }
+.takeaway-body { font-size: 16px; color: rgba(245,240,232,0.6); font-weight: 300; line-height: 1.85; max-width: 640px; margin-bottom: 16px; }
+
+.cta-strip { background: #111C2B; padding: 56px 64px; display: flex; justify-content: space-between; align-items: center; }
+.cta-text { font-family: 'DM Serif Display', serif; font-size: 28px; color: #F5F0E8; }
+.btn-primary { padding: 14px 28px; background: transparent; color: #B8FF4F; font-size: 14px; font-weight: 500; border: 1.5px solid #B8FF4F; cursor: pointer; letter-spacing: 0.5px; font-family: 'DM Sans', sans-serif; text-decoration: none; display: inline-block; transition: background 0.2s, color 0.2s; }
+.btn-primary:hover { background: #B8FF4F; color: #0D1B2A; }
+
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+@media(max-width: 768px) {
+  nav { padding: 20px 24px; }
+  .hero { padding: 120px 24px 0; }
+  .meta-grid { grid-template-columns: 1fr 1fr; }
+  .stats-strip { grid-template-columns: 1fr 1fr; }
+  .content-wrap { padding: 48px 24px; }
+  .before-after { grid-template-columns: 1fr; }
+  .pillars { grid-template-columns: 1fr; }
+  .reach-hero { padding: 40px 24px; }
+  .carousel-header { padding: 0 24px; flex-direction: column; gap: 16px; align-items: flex-start; }
+  .video-slide { grid-template-columns: 1fr; }
+  .video-slide-left, .video-slide-right { padding: 32px 24px; }
+  .carousel-progress { padding: 0 24px; }
+  .campaigns-section { padding: 48px 24px; }
+  .campaign-grid { grid-template-columns: 1fr; }
+  .results-section { padding: 48px 24px; }
+  .results-grid { grid-template-columns: 1fr; }
+  .takeaway { padding: 48px 24px; }
+  .takeaway-stats { grid-template-columns: 1fr 1fr; }
+  .cta-strip { flex-direction: column; gap: 24px; padding: 40px 24px; }
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Anca.</a>
+  <a href="index.html" class="nav-back">All work</a>
+</nav>
+
+<div class="hero">
+  <div class="case-tag">E-commerce · Digital Marketing · Content · CRO</div>
+  <h1 class="case-title">Powerhouse —<br>From assistant<br>to department of one.</h1>
+  <p class="case-subtitle">I joined Powerhouse in May 2025 as an E-commerce Assistant. Within months I had taken over the social media platforms, the marketing strategy, the paid media, the campaigns, the newsletter, the in-store events, and the platform redevelopment. By the time I was formally promoted to Digital and Marketing Executive I was already running the full digital operation solo. What I built in that time is what follows.</p>
+  <div class="meta-grid">
+    <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">Digital and Marketing Executive</div></div>
+    <div class="meta-item"><div class="meta-label">Company</div><div class="meta-value">Powerhouse, Jersey Electricity</div></div>
+    <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-value">May 2025 to November 2026</div></div>
+    <div class="meta-item"><div class="meta-label">Market</div><div class="meta-value">Jersey's largest electrical retailer. Island population: 100,000.</div></div>
+  </div>
+</div>
+
+<div class="stats-strip" id="statsStrip">
+  <div class="stat-cell"><div class="stat-num" data-target="440" data-suffix="×">0×</div><div class="stat-lbl">Peak ROAS</div></div>
+  <div class="stat-cell"><div class="stat-num" data-target="660" data-suffix="%">0%</div><div class="stat-lbl">Instagram growth</div></div>
+  <div class="stat-cell"><div class="stat-num" data-target="55" data-suffix=".5%">0%</div><div class="stat-lbl">Organic session growth</div></div>
+  <div class="stat-cell"><div class="stat-num" data-target="274" data-suffix="%" data-div="100">0%</div><div class="stat-lbl">Email conversion rate</div></div>
+  <div class="stat-cell"><div class="stat-num" data-target="151" data-suffix="k">0k</div><div class="stat-lbl">Single video reach</div></div>
+</div>
+
+<!-- E-COMMERCE SECTION -->
+<div class="content-wrap">
+  <div class="section-block fade-in">
+    <div class="section-label">E-commerce and platform</div>
+    <h2 class="section-title">End to end. No exceptions.</h2>
+    <p class="body-text">Every product on powerhouse.je goes through me. From the moment it needs to go live to the moment it is converting.</p>
+    <p class="body-text">When I joined, every product listing was a bare spec sheet. No descriptions. No meta titles. No meta descriptions. No SEO foundation of any kind. On a platform where the average basket value is £500, a product that cannot be found is revenue that does not exist.</p>
+
+    <div class="before-after">
+      <div class="ba-col before">
+        <div class="ba-label">When I joined</div>
+        <div class="ba-item"><div class="ba-dot bad"></div><div class="ba-text">No product descriptions</div></div>
+        <div class="ba-item"><div class="ba-dot bad"></div><div class="ba-text">No meta titles or descriptions</div></div>
+        <div class="ba-item"><div class="ba-dot bad"></div><div class="ba-text">No SEO foundation</div></div>
+        <div class="ba-item"><div class="ba-dot bad"></div><div class="ba-text">97,000 organic sessions</div></div>
+        <div class="ba-item"><div class="ba-dot bad"></div><div class="ba-text">28.6% bounce rate</div></div>
+        <div class="ba-item"><div class="ba-dot bad"></div><div class="ba-text">4,600 key events</div></div>
+      </div>
+      <div class="ba-col after">
+        <div class="ba-label after-label">After systematic work</div>
+        <div class="ba-item"><div class="ba-dot good"></div><div class="ba-text good">2,000+ products written and SEO'd</div></div>
+        <div class="ba-item"><div class="ba-dot good"></div><div class="ba-text good">Every product with meta titles and descriptions</div></div>
+        <div class="ba-item"><div class="ba-dot good"></div><div class="ba-text good">Full SEO system using SEMrush</div></div>
+        <div class="ba-stat">151k</div><div class="ba-stat-label">organic sessions, up 55.5%</div>
+        <div class="ba-stat">26.8%</div><div class="ba-stat-label">bounce rate, down from 28.6%</div>
+        <div class="ba-stat">8,553</div><div class="ba-stat-label">key events, up 85.9%</div>
+      </div>
+    </div>
+
+    <p class="body-text">Beyond the product catalogue, I manage the full customer journey. Homepage, promotional banners, sponsored placements, site navigation, category structure, site search, seasonal sales, product launches, bundles, cross-sells, and the reviews system. I manage the relationship with the platform supplier, brief developers when needed, and coordinate all stakeholders involved in e-commerce operations.</p>
+    <p class="body-text">Every decision is made with one question in mind: does this make it easier for the right customer to find the right product and buy it?</p>
+  </div>
+
+  <div class="section-block fade-in">
+    <h2 class="section-title">Keeping a live store clean</h2>
+    <p class="body-text">A live e-commerce store with a £500 average basket generates problems that have real commercial consequences. I caught multiple £0 pricing errors on live products before they could be exploited, along with a range of other platform issues, many resolved outside working hours. When the website stops communicating with the ERP I diagnose and fix it. I also serve as PayPal account supervisor, handling complex refunds and supporting colleagues when issues escalate. The job is not just building the store. It is protecting it.</p>
+  </div>
+
+  <div class="section-block fade-in">
+    <h2 class="section-title">Platform redevelopment</h2>
+    <p class="body-text">The biggest project of my time at Powerhouse is a full e-commerce platform redevelopment. I was part of the earliest stage conducting pre-implementation analysis, researching design decisions, defining functionality requirements, and shaping how key features should behave before development began. I am currently leading UAT testing in partnership with the external agency. On a platform where the average basket value is £500 and the audience is an island of 100,000 people who all talk to each other, a bad launch would be felt immediately and widely. That is exactly why I am in the room.</p>
+  </div>
+
+  <!-- MARKETING SECTION -->
+  <div class="section-block fade-in">
+    <div class="section-label">Marketing and content</div>
+    <h2 class="section-title">The strategic starting point</h2>
+    <p class="body-text">Most brands in a market of 100,000 people make the same mistake. They treat it like a smaller version of a big market and apply the same content playbook. Polished product shots. Corporate announcements. Broadcast content designed to reach as many people as possible.</p>
+    <p class="body-text">The problem is that in a community this small and this connected, broadcasting feels cold. When I assessed Powerhouse's social media I saw a brand that had not yet understood this. The store was perceived as reliable, corporate, unapproachable. Somewhere you went because you needed a washing machine, not somewhere you followed because you wanted to.</p>
+    <p class="body-text">Changing that perception was the first job. Everything else followed from it. I built the strategy around three pillars, always in this order:</p>
+    <div class="pillars" id="pillars">
+      <div class="pillar">
+        <div class="pillar-number">01</div>
+        <div class="pillar-title">Humanise the brand</div>
+        <div class="pillar-body">Make the staff real people. Make the store somewhere people wanted to walk into. Connection before conversion.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-number">02</div>
+        <div class="pillar-title">Build trust</div>
+        <div class="pillar-body">Demonstrate expertise. Become the authority on tech on the island. Reputation travels faster than any ad campaign.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-number">03</div>
+        <div class="pillar-title">Drive sales</div>
+        <div class="pillar-body">Once warmth and trust are established, commercial content converts at a completely different rate. You cannot shortcut to this step.</div>
+      </div>
+    </div>
+    <p class="body-text">Every video, photograph, graphic, caption, and edit was conceived, produced, and posted by me.</p>
+  </div>
+</div>
+
+<!-- REACH HERO -->
+<div class="reach-hero fade-in">
+  <div class="reach-hero-number">151,000</div>
+  <div class="reach-hero-label">views on a single video</div>
+  <div class="reach-hero-context">Jersey has <strong>100,000</strong> people. This video reached beyond the island into the UK.</div>
+</div>
+
+<!-- CONTENT CAROUSEL -->
+<div class="carousel-section fade-in">
+  <div class="carousel-header">
+    <div class="carousel-header-left">
+      <div class="section-label">A selection of content</div>
+      <h2 class="section-title">Every piece served a purpose.</h2>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:12px;">
+      <div class="carousel-nav">
+        <button class="carousel-btn" id="prevBtn">&#8592;</button>
+        <button class="carousel-btn" id="nextBtn">&#8594;</button>
+      </div>
+      <div class="carousel-note">This is a selection, not the full library.</div>
+    </div>
+  </div>
+
+  <div class="carousel-viewport">
+    <div class="carousel-track" id="carouselTrack">
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">151k</div>
+            <div class="video-views-sub">views across Jersey and the UK</div>
+          </div>
+          <div class="slide-counter"><strong>01</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">Two staff members doing a trending audio format while playing a piano keyboard and lifting weights. Caption: "Don't you get bored at work." It was an ad for both products. Nobody watching would immediately know that. That was the point. When content is good enough to travel beyond the audience it was made for, you know you got something right.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag humanise">Humanise</span>
+            <span class="pillar-tag sales">Drive sales</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">92.4k</div>
+            <div class="video-views-sub">views Jersey population: 100,000</div>
+          </div>
+          <div class="slide-counter"><strong>02</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">The first video I made with a staff member. A simple, warm, human moment that confirmed everything about what this audience responds to. It set the direction for every content decision that followed.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag humanise">Humanise</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">51.5k</div>
+            <div class="video-views-sub">views</div>
+          </div>
+          <div class="slide-counter"><strong>03</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">A staff member in a Spider-Man costume browsing Spider-Man merchandise in store on the day our new ASUS range arrived. A product launch made memorable because the content gave people something to talk about beyond the product itself.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag humanise">Humanise</span>
+            <span class="pillar-tag sales">Drive sales</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">48k</div>
+            <div class="video-views-sub">views</div>
+          </div>
+          <div class="slide-counter"><strong>04</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">Samsung Galaxy S26 Ultra unboxing. Clear, confident, built for the format. The phone sold out in under 24 hours. When the product is right and the content matches it, the result is immediate.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag trust">Build trust</span>
+            <span class="pillar-tag sales">Drive sales</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">35.7k</div>
+            <div class="video-views-sub">views</div>
+          </div>
+          <div class="slide-counter"><strong>05</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">"Choose your sales advisor" introducing the team to the audience and creating a connection between customer and staff before they even walked in the door.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag humanise">Humanise</span>
+            <span class="pillar-tag trust">Build trust</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">35.1k</div>
+            <div class="video-views-sub">views</div>
+          </div>
+          <div class="slide-counter"><strong>06</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">ASMR video of different vacuums picking up dirt for the spring clean campaign. Oddly satisfying, shareable, and completely unexpected from an electrical retailer. That was the point.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag humanise">Humanise</span>
+            <span class="pillar-tag sales">Drive sales</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">33.9k</div>
+            <div class="video-views-sub">views</div>
+          </div>
+          <div class="slide-counter"><strong>07</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">MacBook Neo launch with a funny intro and bloopers featuring a staff member. A product showcase people actually wanted to watch. Making people laugh about a product is a more powerful selling tool than a spec sheet.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag humanise">Humanise</span>
+            <span class="pillar-tag trust">Build trust</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">21.4k</div>
+            <div class="video-views-sub">views</div>
+          </div>
+          <div class="slide-counter"><strong>08</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">A staff member steam mopping the walls a funny, unexpected way to showcase the new Shark vacuum and steam mop. The product is the punchline, not the pitch.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag humanise">Humanise</span>
+            <span class="pillar-tag sales">Drive sales</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">21.2k</div>
+            <div class="video-views-sub">views</div>
+          </div>
+          <div class="slide-counter"><strong>09</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">Train Like a God fitness campaign content. Part of the series that took the worst performing category and turned it into a measurable growth story. 20% YoY profit growth followed.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag humanise">Humanise</span>
+            <span class="pillar-tag sales">Drive sales</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">14.9k</div>
+            <div class="video-views-sub">views</div>
+          </div>
+          <div class="slide-counter"><strong>10</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">Train Like a God "How Thor fits cardio into his busy schedule." The campaign that took fitness from worst performing to 20% YoY profit growth. Unexpected for an electrical retailer. Deliberately so.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag humanise">Humanise</span>
+            <span class="pillar-tag sales">Drive sales</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">13.7k</div>
+            <div class="video-views-sub">views</div>
+          </div>
+          <div class="slide-counter"><strong>11</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">Travel Ready campaign. Me packing a suitcase with my cat getting in the way. It launched a new product category to an audience that did not know Powerhouse sold travel tech. Authenticity over production value, every time.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag humanise">Humanise</span>
+            <span class="pillar-tag sales">Drive sales</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">52k</div>
+            <div class="video-views-sub">views</div>
+          </div>
+          <div class="slide-counter"><strong>12</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">Staff content humanising the brand and showcasing products without making the audience feel like they are watching an ad. Every face the audience recognises is a reason to trust the brand a little more.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag humanise">Humanise</span>
+            <span class="pillar-tag trust">Build trust</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">44.3k</div>
+            <div class="video-views-sub">views</div>
+          </div>
+          <div class="slide-counter"><strong>13</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">Staff content building brand warmth. In a community of 100,000 people, familiarity is currency. Every video that made someone feel like they knew the Powerhouse team made them more likely to walk through the door.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag humanise">Humanise</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">39.9k</div>
+            <div class="video-views-sub">views</div>
+          </div>
+          <div class="slide-counter"><strong>14</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">Continued staff content. Consistency is what turns individual posts into brand identity. Not one viral video but a sustained presence that made Powerhouse feel like a brand with real people behind it.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag humanise">Humanise</span>
+            <span class="pillar-tag trust">Build trust</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-slide">
+        <div class="video-slide-left">
+          <div>
+            <div class="video-views-big">12.4k</div>
+            <div class="video-views-sub">views</div>
+          </div>
+          <div class="slide-counter"><strong>15</strong> / 15</div>
+        </div>
+        <div class="video-slide-right">
+          <div class="video-slide-desc">Spring clean campaign with an untrained dog. Authenticity, warmth, and a product showcase that did not feel like one. Filmed with my own animals because real moments outperform scripted ones every time.</div>
+          <div class="video-pillars">
+            <span class="pillar-tag humanise">Humanise</span>
+            <span class="pillar-tag sales">Drive sales</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="carousel-progress" id="carouselProgress"></div>
+</div>
+
+<!-- EMAIL INFOGRAPHIC -->
+<div class="content-wrap">
+  <div class="section-block fade-in">
+    <div class="section-label">Email marketing</div>
+    <h2 class="section-title">Built from scratch. Consistently above benchmark.</h2>
+    <p class="body-text">The first structural change I made was to the signup popup. It had been triggering on page load the moment of highest friction and lowest intent. I moved it to trigger after 5 seconds of browsing inactivity, when a visitor has demonstrated genuine interest, and led with a 5% discount offer that gave them a clear commercial reason to act.</p>
+
+    <div class="email-infographic fade-in" id="emailInfographic">
+      <div class="email-header">
+        <div>
+          <div class="email-title">Subscriber growth</div>
+          <div class="email-subtitle">From 688 to 1,240</div>
+        </div>
+      </div>
+      <div class="subscriber-bar">
+        <div class="subscriber-label">
+          <span>Start: 688</span>
+          <span>Now: 1,240</span>
+        </div>
+        <div class="subscriber-track">
+          <div class="subscriber-fill" id="subFill"></div>
+        </div>
+      </div>
+      <div class="conversion-compare">
+        <div class="conv-cell">
+          <div class="conv-num">2.1%</div>
+          <div class="conv-label">Industry minimum benchmark</div>
+        </div>
+        <div class="conv-cell">
+          <div class="conv-num">2.5%</div>
+          <div class="conv-label">Industry maximum benchmark</div>
+        </div>
+        <div class="conv-cell highlight">
+          <div class="conv-num green">2.74%</div>
+          <div class="conv-label">Powerhouse conversion rate</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body-text" style="margin-top:24px;">35 newsletters sent, each written, designed, and scheduled by me. Revenue per email: £90.62.</p>
+  </div>
+
+  <div class="section-block fade-in">
+    <div class="section-label">Paid media</div>
+    <h2 class="section-title">Every campaign set up, managed, and optimised by me</h2>
+    <p class="body-text">Meta and Google campaigns audience targeting, creative production, budget allocation, bid strategy, and ongoing performance-based optimisation. No agency. No additional resource. Peak ROAS: 440x. The highest recorded Meta ROAS in company history at the time 230x came from a graphic asset I produced and tested independently.</p>
+  </div>
+</div>
+
+<!-- CAMPAIGNS -->
+<div class="campaigns-section fade-in">
+  <div class="section-label">Campaigns</div>
+  <h2 class="section-title">One full campaign every month. Every channel. Every asset.</h2>
+  <div class="campaign-grid">
+    <div class="campaign-card">
+      <div class="campaign-result-badge">30%</div>
+      <div class="campaign-result-sub">YoY uplift in laptop and PC sales</div>
+      <div class="campaign-name">Back to School</div>
+      <div class="campaign-body">Started with research most profitable months historically, Jersey school term dates, the gap between local and UK calendars. That gap is a commercial window most brands miss. I identified it and built the entire campaign around it. Landing page, social giveaway, newsletter sequence, paid ads, free antivirus with every laptop and PC purchase, and the monthly JEP article managed end to end.</div>
+    </div>
+    <div class="campaign-card">
+      <div class="campaign-result-badge">20%</div>
+      <div class="campaign-result-sub">YoY profit growth in the fitness category</div>
+      <div class="campaign-name">Train Like a God</div>
+      <div class="campaign-body">Fitness was Powerhouse's worst performing category. I changed that with one campaign. I hired an actor to play Thor, brought him into the store, and built an entire campaign around the idea that even gods need to fit cardio into a busy schedule. Worst performing to measurably improved.</div>
+    </div>
+    <div class="campaign-card">
+      <div class="campaign-result-badge">24h</div>
+      <div class="campaign-result-sub">Time to sell out the Samsung S26 Ultra</div>
+      <div class="campaign-name">Samsung S26 Ultra Launch</div>
+      <div class="campaign-body">A product launch built around a single piece of content an unboxing video that gave the audience everything they wanted to know before they knew they wanted to know it. When the product is right and the content matches it, the result is immediate.</div>
+    </div>
+    <div class="campaign-card">
+      <div class="campaign-result-badge">In progress</div>
+      <div class="campaign-result-sub">Self-initiated from opportunity identification</div>
+      <div class="campaign-name">Gaming PC Range</div>
+      <div class="campaign-body">I identified an underleveraged product category with strong commercial potential and no existing campaign behind it. Building the brand campaign from scratch professional shoot, press coverage, and a free venue partnership negotiated by cold-approaching a gaming hub owner independently.</div>
+    </div>
+    <div class="campaign-card">
+      <div class="campaign-result-badge">13.7k</div>
+      <div class="campaign-result-sub">Views. A new category introduced.</div>
+      <div class="campaign-name">Travel Ready</div>
+      <div class="campaign-body">Powerhouse had started stocking travel gadgets but had no campaign to introduce the category to customers who did not yet know we sold them. I launched it with a video of me packing a suitcase with my cat getting in the way. Authenticity over production value, every time.</div>
+    </div>
+    <div class="campaign-card">
+      <div class="campaign-result-badge">12×</div>
+      <div class="campaign-result-sub">Monthly press presence, every month</div>
+      <div class="campaign-name">Monthly JEP Column</div>
+      <div class="campaign-body">Every month I research, write, and manage the full placement of an article in the Jersey Evening Post. Each piece is tied to the current campaign, timed to the peak buying window, and positioned to establish Powerhouse as the authority on tech in Jersey. All stakeholders managed end to end by me.</div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="results-section fade-in">
+  <div class="section-label">The numbers</div>
+  <div class="results-grid">
+    <div class="results-block">
+      <div class="results-block-title">Social media</div>
+      <div class="result-line"><div class="result-num">660%</div><div class="result-desc">Instagram growth</div></div>
+      <div class="result-line"><div class="result-num">1M+</div><div class="result-desc">Instagram views</div></div>
+      <div class="result-line"><div class="result-num">892%</div><div class="result-desc">Instagram profile visits up</div></div>
+      <div class="result-line"><div class="result-num">7.9M</div><div class="result-desc">Facebook views</div></div>
+      <div class="result-line"><div class="result-num">242%</div><div class="result-desc">Social link clicks to website up</div></div>
+    </div>
+    <div class="results-block">
+      <div class="results-block-title">SEO and e-commerce</div>
+      <div class="result-line"><div class="result-num">55.5%</div><div class="result-desc">Organic session growth</div></div>
+      <div class="result-line"><div class="result-num">85.9%</div><div class="result-desc">Key events up</div></div>
+      <div class="result-line"><div class="result-num">2,000+</div><div class="result-desc">Products uploaded and SEO'd</div></div>
+      <div class="result-line"><div class="result-num">£500</div><div class="result-desc">Average basket value</div></div>
+    </div>
+    <div class="results-block">
+      <div class="results-block-title">Email</div>
+      <div class="result-line"><div class="result-num">2.74%</div><div class="result-desc">Conversion rate (benchmark: 2.1 to 2.5%)</div></div>
+      <div class="result-line"><div class="result-num">£90.62</div><div class="result-desc">Revenue per email</div></div>
+      <div class="result-line"><div class="result-num">1,240</div><div class="result-desc">Subscribers</div></div>
+      <div class="result-line"><div class="result-num">35</div><div class="result-desc">Newsletters sent</div></div>
+    </div>
+    <div class="results-block">
+      <div class="results-block-title">Campaigns</div>
+      <div class="result-line"><div class="result-num">440×</div><div class="result-desc">Peak Meta ROAS</div></div>
+      <div class="result-line"><div class="result-num">30%</div><div class="result-desc">YoY laptop and PC sales uplift</div></div>
+      <div class="result-line"><div class="result-num">20%</div><div class="result-desc">YoY fitness profit growth</div></div>
+      <div class="result-line"><div class="result-num">24h</div><div class="result-desc">Time to sell out Samsung S26 Ultra</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAKEAWAY -->
+<div class="takeaway fade-in">
+  <p class="takeaway-headline">One person. Every channel. <em>Measurable outcomes across all of them.</em></p>
+  <div class="takeaway-stats">
+    <div class="takeaway-stat"><div class="takeaway-stat-num">151k</div><div class="takeaway-stat-label">Single video reach in a population of 100,000</div></div>
+    <div class="takeaway-stat"><div class="takeaway-stat-num">440×</div><div class="takeaway-stat-label">Peak ROAS on Meta</div></div>
+    <div class="takeaway-stat"><div class="takeaway-stat-num">30%</div><div class="takeaway-stat-label">YoY sales uplift from one campaign</div></div>
+    <div class="takeaway-stat"><div class="takeaway-stat-num">24h</div><div class="takeaway-stat-label">To sell out a flagship phone</div></div>
+  </div>
+  <p class="takeaway-body">Every result on this page came from the same place: understanding an audience specifically enough to know exactly what they will respond to, and having the commercial discipline to connect every creative decision to a business outcome.</p>
+  <p class="takeaway-body">I built and ran a full marketing and e-commerce operation from the ground up. Strategy, execution, measurement, and iteration across every channel without a team. The results are not a coincidence. They are a method.</p>
+</div>
+
+<div class="cta-strip fade-in">
+  <div class="cta-text">Want to see more work?</div>
+  <a href="index.html" class="btn-primary">Back to all projects</a>
+</div>
+
+<script>
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+
+const fadeEls = document.querySelectorAll('.fade-in');
+const fadeObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+fadeEls.forEach(el => fadeObs.observe(el));
+
+// Pillars staggered reveal
+const pillarsObs = new IntersectionObserver(entries => {
+  if(entries[0].isIntersecting) {
+    document.querySelectorAll('.pillar').forEach(p => p.classList.add('visible'));
+  }
+}, { threshold: 0.2 });
+pillarsObs.observe(document.getElementById('pillars'));
+
+// Stats counter
+const statEls = document.querySelectorAll('.stat-num[data-target]');
+let statsAnimated = false;
+function animateStats() {
+  if(statsAnimated) return; statsAnimated = true;
+  statEls.forEach(el => {
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.suffix;
+    const div = el.dataset.div ? parseInt(el.dataset.div) : null;
+    const duration = 1800; const start = performance.now();
+    function update(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const val = Math.round(eased * target);
+      el.innerHTML = div ? (val/div).toFixed(2) + '<span>' + suffix + '</span>' : val + '<span>' + suffix + '</span>';
+      if(p < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  });
+}
+const statsObs = new IntersectionObserver(entries => { if(entries[0].isIntersecting) animateStats(); }, { threshold: 0.3 });
+statsObs.observe(document.getElementById('statsStrip'));
+
+// Email subscriber bar animation
+let emailAnimated = false;
+const emailObs = new IntersectionObserver(entries => {
+  if(entries[0].isIntersecting && !emailAnimated) {
+    emailAnimated = true;
+    setTimeout(() => {
+      document.getElementById('subFill').style.width = '80%';
+    }, 300);
+  }
+}, { threshold: 0.3 });
+emailObs.observe(document.getElementById('emailInfographic'));
+
+// Carousel
+const track = document.getElementById('carouselTrack');
+const slides = track.querySelectorAll('.video-slide');
+const progressContainer = document.getElementById('carouselProgress');
+let current = 0;
+const total = slides.length;
+
+slides.forEach((_, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+  dot.addEventListener('click', () => goTo(i));
+  progressContainer.appendChild(dot);
+});
+
+function goTo(index) {
+  current = Math.max(0, Math.min(index, total - 1));
+  track.style.transform = 'translateX(-' + (current * 100) + '%)';
+  document.querySelectorAll('.progress-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  document.getElementById('prevBtn').disabled = current === 0;
+  document.getElementById('nextBtn').disabled = current === total - 1;
+}
+
+document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+document.getElementById('prevBtn').disabled = true;
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if(e.key === 'ArrowLeft') goTo(current - 1);
+  if(e.key === 'ArrowRight') goTo(current + 1);
+});
+</script>
+</body>
+</html>

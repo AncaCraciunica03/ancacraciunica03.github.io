@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioVRium Anca Crăciunică</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: #0D1B2A; font-family: 'DM Sans', sans-serif; color: #F5F0E8; cursor: none; }
+.cursor { position: fixed; width: 10px; height: 10px; background: #B8FF4F; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 24px 64px; background: rgba(13,27,42,0.92); backdrop-filter: blur(12px); border-bottom: 0.5px solid rgba(245,240,232,0.1); }
+.nav-logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: #F5F0E8; text-decoration: none; }
+.nav-logo:hover { color: #B8FF4F; }
+.nav-back { font-size: 13px; color: rgba(245,240,232,0.5); text-decoration: none; font-weight: 300; display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+.nav-back:hover { color: #B8FF4F; }
+.nav-back::before { content: '←'; }
+.hero { padding: 140px 64px 80px; border-bottom: 0.5px solid rgba(245,240,232,0.1); }
+.case-tag { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #B8FF4F; margin-bottom: 20px; font-weight: 400; }
+.case-title { font-family: 'DM Serif Display', serif; font-size: clamp(40px, 6vw, 72px); line-height: 1.05; letter-spacing: -2px; color: #F5F0E8; margin-bottom: 24px; }
+.case-subtitle { font-size: 20px; font-weight: 300; color: rgba(245,240,232,0.6); max-width: 640px; line-height: 1.6; margin-bottom: 56px; }
+.meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 0.5px solid rgba(245,240,232,0.12); }
+.meta-item { padding: 24px 32px; border-right: 0.5px solid rgba(245,240,232,0.12); }
+.meta-item:last-child { border-right: none; }
+.meta-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(245,240,232,0.35); margin-bottom: 8px; }
+.meta-value { font-size: 14px; color: #F5F0E8; font-weight: 400; line-height: 1.5; }
+.content { max-width: 800px; margin: 0 auto; padding: 80px 64px; }
+.section { margin-bottom: 72px; }
+.section-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #B8FF4F; margin-bottom: 20px; font-weight: 400; }
+.section-title { font-family: 'DM Serif Display', serif; font-size: 32px; color: #F5F0E8; margin-bottom: 20px; letter-spacing: -0.5px; line-height: 1.2; }
+.section-body { font-size: 16px; color: rgba(245,240,232,0.65); line-height: 1.8; font-weight: 300; margin-bottom: 20px; }
+.highlight-box { background: #111C2B; border-left: 2px solid #B8FF4F; padding: 28px 32px; margin: 32px 0; }
+.highlight-box p { font-size: 16px; color: rgba(245,240,232,0.75); line-height: 1.7; font-weight: 300; }
+.img-block { margin: 40px 0; }
+.img-block img { width: 100%; border: 0.5px solid rgba(245,240,232,0.08); display: block; }
+.img-caption { font-size: 12px; color: rgba(245,240,232,0.3); font-weight: 300; margin-top: 12px; font-style: italic; }
+.img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 40px 0; }
+.img-grid img { width: 100%; display: block; border: 0.5px solid rgba(245,240,232,0.08); }
+.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin: 40px 0; }
+.stat-box { background: #111C2B; padding: 32px; }
+.stat-number { font-family: 'DM Serif Display', serif; font-size: 42px; color: #B8FF4F; letter-spacing: -1px; margin-bottom: 8px; }
+.stat-desc { font-size: 13px; color: rgba(245,240,232,0.45); font-weight: 300; line-height: 1.5; }
+.character-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin: 32px 0; }
+.character-card { background: #111C2B; padding: 32px; }
+.character-name { font-family: 'DM Serif Display', serif; font-size: 22px; color: #F5F0E8; margin-bottom: 8px; }
+.character-role { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #B8FF4F; margin-bottom: 16px; }
+.character-desc { font-size: 14px; color: rgba(245,240,232,0.55); font-weight: 300; line-height: 1.6; }
+.video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 40px 0; border: 0.5px solid rgba(245,240,232,0.08); }
+.video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.findings-list { list-style: none; margin: 24px 0; }
+.findings-list li { padding: 16px 0; border-bottom: 0.5px solid rgba(245,240,232,0.08); font-size: 15px; color: rgba(245,240,232,0.65); font-weight: 300; line-height: 1.6; display: flex; gap: 16px; }
+.findings-list li::before { content: '✦'; color: #B8FF4F; font-size: 10px; flex-shrink: 0; margin-top: 4px; }
+.quote-block { padding: 32px 0; border-top: 0.5px solid rgba(245,240,232,0.1); border-bottom: 0.5px solid rgba(245,240,232,0.1); margin: 40px 0; }
+.quote-text { font-family: 'DM Serif Display', serif; font-size: 22px; color: #F5F0E8; line-height: 1.5; font-style: italic; margin-bottom: 12px; }
+.quote-attr { font-size: 13px; color: rgba(245,240,232,0.4); font-weight: 300; }
+.link-row { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 32px; }
+.action-link { display: inline-flex; align-items: center; gap: 8px; color: #B8FF4F; font-size: 14px; font-weight: 400; text-decoration: none; border-bottom: 0.5px solid rgba(184,255,79,0.4); padding-bottom: 2px; transition: border-color 0.2s; }
+.action-link:hover { border-bottom-color: #B8FF4F; }
+.cta-strip { background: #111C2B; padding: 56px 64px; display: flex; justify-content: space-between; align-items: center; margin-top: 80px; }
+.cta-text { font-family: 'DM Serif Display', serif; font-size: 28px; color: #F5F0E8; }
+.btn-primary { padding: 14px 28px; background: transparent; color: #B8FF4F; font-size: 14px; font-weight: 500; border: 1.5px solid #B8FF4F; cursor: pointer; letter-spacing: 0.5px; font-family: 'DM Sans', sans-serif; text-decoration: none; display: inline-block; transition: background 0.2s, color 0.2s; }
+.btn-primary:hover { background: #B8FF4F; color: #0D1B2A; }
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+@media(max-width:768px) { nav { padding: 20px 24px; } .hero { padding: 120px 24px 60px; } .meta-grid { grid-template-columns: 1fr 1fr; } .content { padding: 48px 24px; } .stat-row { grid-template-columns: 1fr; } .character-grid { grid-template-columns: 1fr; } .img-grid { grid-template-columns: 1fr; } .cta-strip { flex-direction: column; gap: 24px; padding: 40px 24px; } }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<nav>
+  <a href="index.html" class="nav-logo">Anca.</a>
+  <a href="index.html" class="nav-back">All work</a>
+</nav>
+
+<div class="hero">
+  <div class="case-tag">VR Development · UX Research · AI · Dissertation</div>
+  <h1 class="case-title">BioVRium —<br>Generative AI<br>in Virtual Reality</h1>
+  <p class="case-subtitle">I had a question. Could generative AI inside a virtual reality environment actually improve how people learn? Not in theory. In practice, with real participants, real data, and a platform I built myself from scratch.</p>
+  <div class="meta-grid">
+    <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">UX Researcher, VR Developer, Data Analyst</div></div>
+    <div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value">Unreal Engine 5.3.2, CONVAI, SUS, InfraNodus</div></div>
+    <div class="meta-item"><div class="meta-label">Context</div><div class="meta-value">BSc Dissertation, self-funded &amp; independently run</div></div>
+    <div class="meta-item"><div class="meta-label">Industry</div><div class="meta-value">Educational Technology</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="section fade-in">
+    <div class="section-label">The Question</div>
+    <h2 class="section-title">Does AI in VR actually make a difference?</h2>
+    <p class="section-body">Microbiology asks students to understand things they can never see with the naked eye. Bacteria. Viruses. Cell structures. Traditional education handles this with diagrams and descriptions. It works, but it does not exactly inspire wonder.</p>
+    <p class="section-body">VR changes what is possible. But does adding AI to VR actually make a meaningful difference to learning outcomes? That was the real question. So I built BioVRium twice. Once with AI. Once without. Then I ran two studies to find out which one worked better.</p>
+    <p class="section-body">The answer, statistically speaking, was clear.</p>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">The Platform</div>
+    <h2 class="section-title">Four levels. Two versions. One very determined student.</h2>
+    <p class="section-body">BioVRium is a four-level immersive learning environment built in Unreal Engine 5.3.2. Virtual Classroom. Inside the Microscope. Virus World. Bacteria World. Students explore 3D models, interact with content, complete built-in quizzes, and talk to AI characters powered by CONVAI.</p>
+    <div class="highlight-box">
+      <p>All testing sessions were self-organised and self-funded. No university lab. No budget. Just a lot of determination and a very patient group of participants.</p>
+    </div>
+    <div class="img-block">
+      <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/66839e7c-9639-44aa-912b-797697e48160/ofviata2.png" alt="BioVRium Virtual Classroom level">
+      <div class="img-caption">Level 1 The Virtual Classroom</div>
+    </div>
+    <div class="img-grid">
+      <div>
+        <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/df04028a-00fe-4945-93b1-3330744377ff/ofviata3.png" alt="Inside the Microscope level">
+        <div class="img-caption">Level 2 Inside the Microscope</div>
+      </div>
+      <div>
+        <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/1fce338b-ed79-4d1b-a4de-4b22a63c30e4/ofviata4.png" alt="Virus World level">
+        <div class="img-caption">Level 3 Virus World</div>
+      </div>
+    </div>
+    <div class="link-row">
+      <a href="https://youtu.be/TFiP-_hgzNY" target="_blank" class="action-link">Watch the demo on YouTube →</a>
+      <a href="dissertation.pdf" target="_blank" class="action-link">Read the full research →</a>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">Watch It</div>
+    <h2 class="section-title">See BioVRium in action.</h2>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/TFiP-_hgzNY" title="BioVRium demonstration" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">The AI Characters</div>
+    <h2 class="section-title">Three characters. Three ways of learning.</h2>
+    <p class="section-body">Rather than a single AI guide, I designed three distinct characters informed by Study 1 findings on how different people prefer to learn.</p>
+    <div class="character-grid">
+      <div class="character-card">
+        <div class="character-name">BioBear</div>
+        <div class="character-role">The Gamified Guide</div>
+        <div class="character-desc">An animated teddy bear designed to make learning feel like play. Reduces intimidation around complex scientific content through gamification and a friendly, low-stakes environment.</div>
+      </div>
+      <div class="character-card">
+        <div class="character-name">Anca</div>
+        <div class="character-role">The Knowledgeable Friend</div>
+        <div class="character-desc">A young microbiologist who is both expert and approachable. Bridges rigorous academic knowledge with a friendly, relatable presence. Ended up being the favourite.</div>
+      </div>
+      <div class="character-card">
+        <div class="character-name">Dr. Ellis</div>
+        <div class="character-role">The Academic Authority</div>
+        <div class="character-desc">A senior professor for learners who prefer structure and authority. Deep expertise, reliable, thorough. For the students who want to feel like they are in a proper lecture.</div>
+      </div>
+    </div>
+    <div class="img-grid">
+      <div>
+        <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/85482f96-0793-40ac-9354-b0f8fa8f1ba7/ofviata.png" alt="User preferences chart from Study 1">
+        <div class="img-caption">Study 1 findings on VR content preferences</div>
+      </div>
+      <div>
+        <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/f1e106b6-490a-479f-94a5-a011c4e668c4/ofviata5.jpg" alt="User interaction flow with BioVRium">
+        <div class="img-caption">User interaction flow with the AI system</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">Study 1</div>
+    <h2 class="section-title">31 participants. One clear direction.</h2>
+    <p class="section-body">An online survey distributed through a professional VR research community to understand user needs, preferences, and pain points around microbiology learning and VR usage.</p>
+    <ul class="findings-list">
+      <li>54.8% of participants wanted realistic 3D models, interactive content, and adaptive learning paths. All three, simultaneously. All of which went into the platform.</li>
+      <li>The majority rated built-in quizzes as very important, so both versions of BioVRium included them with immediate feedback after each answer.</li>
+      <li>Users preferred session durations around 30 minutes. BioVRium sessions were designed at 20 to 25 minutes, balancing user preference with research suggesting under 15 minutes is optimal.</li>
+    </ul>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">Study 2</div>
+    <h2 class="section-title">Crossover study. 10 participants. Statistically significant.</h2>
+    <p class="section-body">Each participant experienced both versions of BioVRium in randomised order. Pre and post knowledge assessments, SUS usability scores, observational notes, and audio recordings were all collected.</p>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-number">p=.026</div>
+        <div class="stat-desc">Statistical significance, Mann-Whitney U=24</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">r=0.47</div>
+        <div class="stat-desc">Medium-to-large effect size, meaningful real-world impact</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">n=41</div>
+        <div class="stat-desc">Total participants across both studies</div>
+      </div>
+    </div>
+    <p class="section-body">The AI-enhanced version produced significantly higher learning outcomes and usability scores. Almost every participant preferred it. Most preferred the character Anca, despite her being the only one with a non-human voice. Which tells you something interesting about what people actually respond to in AI design.</p>
+    <div class="img-grid">
+      <div>
+        <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/5b9db9a9-cd59-470c-b4e9-3e8312eaa3fb/iaiaia.png" alt="Time spent in sessions comparison chart">
+        <div class="img-caption">Time spent in AI vs VR-only sessions per participant</div>
+      </div>
+      <div>
+        <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/2176d7a9-b696-4e92-b93d-a29e32f8f82c/fdfdsfsd.png" alt="Thematic analysis word network">
+        <div class="img-caption">Thematic analysis of participant feedback</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">Honest About What Did Not Work</div>
+    <h2 class="section-title">Good research includes the uncomfortable bits.</h2>
+    <div class="quote-block">
+      <div class="quote-text">"Without AI because I did not need to wait for a long period to know what the answer to the question asked is."</div>
+      <div class="quote-attr">Participant 6</div>
+    </div>
+    <p class="section-body">The CONVAI plugin had real-time responsiveness limitations. Some participants found AI response delays frustrating. One preferred the version without AI entirely because of this. These are legitimate technical constraints, not design failures. The conceptual finding stands. The technical constraint is solvable.</p>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">What I Took Away</div>
+    <h2 class="section-title">AI in educational VR shows genuine, measurable promise.</h2>
+    <ul class="findings-list">
+      <li>AI integration meaningfully improves engagement and learning outcomes. Not just subjectively. Statistically.</li>
+      <li>Diversity in character design matters. Different people responded to different personas, validating the three-character approach from the start.</li>
+      <li>Users value visual humanisation over vocal realism. Anca looked human but did not sound it, and she was still the favourite. That is a counterintuitive finding with real implications for AI character design.</li>
+      <li>Self-funded, independently run research is possible and produces publishable-quality findings. You just have to want the answer badly enough.</li>
+    </ul>
+    <div class="link-row">
+      <a href="dissertation.pdf" target="_blank" class="action-link">Read the full dissertation →</a>
+      <a href="https://youtu.be/TFiP-_hgzNY" target="_blank" class="action-link">Watch the platform demo →</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="cta-strip fade-in">
+  <div class="cta-text">Want to see more work?</div>
+  <a href="index.html" class="btn-primary">Back to all projects</a>
+</div>
+
+<script>
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+const fadeEls = document.querySelectorAll('.fade-in');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+fadeEls.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
