@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elefant.ro Anca Crăciunică</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: #0D1B2A; font-family: 'DM Sans', sans-serif; color: #F5F0E8; cursor: none; }
+.cursor { position: fixed; width: 10px; height: 10px; background: #B8FF4F; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 24px 64px; background: rgba(13,27,42,0.92); backdrop-filter: blur(12px); border-bottom: 0.5px solid rgba(245,240,232,0.1); }
+.nav-logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: #F5F0E8; text-decoration: none; }
+.nav-logo:hover { color: #B8FF4F; }
+.nav-back { font-size: 13px; color: rgba(245,240,232,0.5); text-decoration: none; font-weight: 300; display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+.nav-back:hover { color: #B8FF4F; }
+.nav-back::before { content: '←'; }
+.hero { padding: 140px 64px 80px; border-bottom: 0.5px solid rgba(245,240,232,0.1); }
+.case-tag { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #B8FF4F; margin-bottom: 20px; font-weight: 400; }
+.hobby-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(184,255,79,0.08); border: 0.5px solid rgba(184,255,79,0.25); color: #B8FF4F; font-size: 12px; padding: 6px 14px; border-radius: 100px; margin-bottom: 24px; font-weight: 300; }
+.case-title { font-family: 'DM Serif Display', serif; font-size: clamp(40px, 6vw, 72px); line-height: 1.05; letter-spacing: -2px; color: #F5F0E8; margin-bottom: 24px; }
+.case-subtitle { font-size: 20px; font-weight: 300; color: rgba(245,240,232,0.6); max-width: 640px; line-height: 1.6; margin-bottom: 56px; }
+.meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 0.5px solid rgba(245,240,232,0.12); }
+.meta-item { padding: 24px 32px; border-right: 0.5px solid rgba(245,240,232,0.12); }
+.meta-item:last-child { border-right: none; }
+.meta-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(245,240,232,0.35); margin-bottom: 8px; }
+.meta-value { font-size: 14px; color: #F5F0E8; font-weight: 400; line-height: 1.5; }
+.content { max-width: 800px; margin: 0 auto; padding: 80px 64px; }
+.section { margin-bottom: 72px; }
+.section-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #B8FF4F; margin-bottom: 20px; font-weight: 400; }
+.section-title { font-family: 'DM Serif Display', serif; font-size: 32px; color: #F5F0E8; margin-bottom: 20px; letter-spacing: -0.5px; line-height: 1.2; }
+.section-body { font-size: 16px; color: rgba(245,240,232,0.65); line-height: 1.8; font-weight: 300; margin-bottom: 20px; }
+.highlight-box { background: #111C2B; border-left: 2px solid #B8FF4F; padding: 28px 32px; margin: 32px 0; }
+.highlight-box p { font-size: 16px; color: rgba(245,240,232,0.75); line-height: 1.7; font-weight: 300; }
+.img-block { margin: 40px 0; }
+.img-block img { width: 100%; border: 0.5px solid rgba(245,240,232,0.08); display: block; }
+.img-caption { font-size: 12px; color: rgba(245,240,232,0.3); font-weight: 300; margin-top: 12px; font-style: italic; }
+.img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 40px 0; }
+.img-grid img { width: 100%; display: block; border: 0.5px solid rgba(245,240,232,0.08); }
+.features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin: 32px 0; }
+.feature-box { background: #111C2B; padding: 28px 32px; }
+.feature-title { font-size: 14px; color: #F5F0E8; font-weight: 500; margin-bottom: 10px; }
+.feature-desc { font-size: 13px; color: rgba(245,240,232,0.5); font-weight: 300; line-height: 1.6; }
+.findings-list { list-style: none; margin: 24px 0; }
+.findings-list li { padding: 16px 0; border-bottom: 0.5px solid rgba(245,240,232,0.08); font-size: 15px; color: rgba(245,240,232,0.65); font-weight: 300; line-height: 1.6; display: flex; gap: 16px; }
+.findings-list li::before { content: '✦'; color: #B8FF4F; font-size: 10px; flex-shrink: 0; margin-top: 4px; }
+.action-link { display: inline-flex; align-items: center; gap: 8px; color: #B8FF4F; font-size: 14px; font-weight: 400; text-decoration: none; border-bottom: 0.5px solid rgba(184,255,79,0.4); padding-bottom: 2px; margin-top: 24px; }
+.action-link:hover { border-bottom-color: #B8FF4F; }
+.cta-strip { background: #111C2B; padding: 56px 64px; display: flex; justify-content: space-between; align-items: center; margin-top: 80px; }
+.cta-text { font-family: 'DM Serif Display', serif; font-size: 28px; color: #F5F0E8; }
+.btn-primary { padding: 14px 28px; background: transparent; color: #B8FF4F; font-size: 14px; font-weight: 500; border: 1.5px solid #B8FF4F; cursor: pointer; letter-spacing: 0.5px; font-family: 'DM Sans', sans-serif; text-decoration: none; display: inline-block; transition: background 0.2s, color 0.2s; }
+.btn-primary:hover { background: #B8FF4F; color: #0D1B2A; }
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+@media(max-width:768px) { nav { padding: 20px 24px; } .hero { padding: 120px 24px 60px; } .meta-grid { grid-template-columns: 1fr 1fr; } .content { padding: 48px 24px; } .features-grid { grid-template-columns: 1fr; } .img-grid { grid-template-columns: 1fr; } .cta-strip { flex-direction: column; gap: 24px; padding: 40px 24px; } }
+
+  @media (hover: none) and (pointer: coarse) {
+    .cursor, .cursor-trail { display: none !important; }
+    body { cursor: auto !important; }
+  }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<nav>
+  <a href="index.html" class="nav-logo">Anca.</a>
+  <a href="index.html" class="nav-back">All work</a>
+</nav>
+
+<div class="hero">
+  <div class="case-tag">UX/UI Design · E-commerce · CRO</div>
+  <div class="hobby-badge">✦ Passion project done in one day</div>
+  <h1 class="case-title">Elefant.ro —<br>More Discovery,<br>Better Conversion</h1>
+  <p class="case-subtitle">I want to be upfront about something. This was not a client project. No one hired me to do this. I was using Elefant.ro, Romania's biggest online bookstore, and the UX was frustrating me enough that I spent a Saturday redesigning it. That is either a character flaw or a professional one. Probably both.</p>
+  <div class="meta-grid">
+    <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">UX/UI Designer</div></div>
+    <div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value">Balsamiq, Figma</div></div>
+    <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-value">1 day</div></div>
+    <div class="meta-item"><div class="meta-label">Industry</div><div class="meta-value">E-commerce</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="section fade-in">
+    <div class="section-label">The Context</div>
+    <h2 class="section-title">I could not switch off the analytical brain.</h2>
+    <p class="section-body">Elefant.ro is Romania's leading online retailer. Books, e-books, stationery, lifestyle products. I used it regularly. And regularly I found myself frustrated by its navigation complexity, cluttered homepage, and complete lack of discovery features.</p>
+    <div class="highlight-box">
+      <p>The instinct to spot a conversion problem in something you use every day and actually do something about it turns out to be exactly the same instinct that produces good marketing work. The context changes. The thinking does not.</p>
+    </div>
+    <div class="img-block">
+      <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/7ab49df7-4b8d-4c4e-9416-f1b97275b8da/Yellow+And+Light+Yellow+Modern+User+Persona+Graph.png" alt="User persona Elena">
+      <div class="img-caption">User persona developed from understanding the typical Elefant.ro browser</div>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">Users knew what they wanted. They could not find it.</h2>
+    <p class="section-body">Research found that many users arrived with a general category in mind. They wanted Romanian fiction, or science books, or a gift for someone. But the site's complexity made navigation feel like work. The opportunity was to reduce that friction and introduce discovery mechanics that rewarded browsing rather than punishing it.</p>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">Before and After</div>
+    <h2 class="section-title">The original site. Then what I redesigned.</h2>
+    <p class="section-body">This is what Elefant.ro looked like before my redesign. A cluttered, text-heavy homepage with poor visual hierarchy, no focal point, and no discovery mechanics. Categories listed as plain text with no visual weight. No reason to browse. No reason to stay.</p>
+    <div class="img-block">
+      <img src="elefant-before.png" alt="Elefant.ro original homepage before redesign">
+      <div class="img-caption">The original Elefant.ro homepage. No hierarchy. No discovery. No reason to stay.</div>
+    </div>
+    <p class="section-body" style="margin-top:24px;">Below is the redesigned version. A clear focal point in the carousel, simplified category navigation, the Book Roulette discovery feature, and the animated discount mechanic. Every change serves a specific conversion goal.</p>
+    <a href="https://www.figma.com/proto/dt9QFBkypridOZBBbUAGej/Efelant---Project?node-id=30-521&starting-point-node-id=30%3A521&t=Lm6JSNtUKjxP1nxS-1" target="_blank" class="action-link">View the redesign in Figma →</a>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">The Solution</div>
+    <h2 class="section-title">Four changes. Each targeting a specific conversion lever.</h2>
+    <div class="features-grid">
+      <div class="feature-box">
+        <div class="feature-title">Featured carousel</div>
+        <div class="feature-desc">Central hero carousel for new releases and featured titles. Immediate attention capture on landing. Gives the homepage a focal point it did not have before.</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-title">Simplified category navigation</div>
+        <div class="feature-desc">Clear category section with quick links to Sale and Bestseller. Fewer decisions between landing and buying intent.</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-title">Book Roulette</div>
+        <div class="feature-desc">Randomised book suggestion feature for people who want to discover something new without knowing exactly what they are looking for. Turns passive browsing into active exploration.</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-title">Animated discount mechanic</div>
+        <div class="feature-desc">An animated gift box that reveals a discount code on click. A small moment of delight at exactly the right point in the journey is worth more than a banner nobody reads.</div>
+      </div>
+    </div>
+    <div class="img-grid">
+      <div>
+        <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/ecea4ca9-86cd-49aa-8813-3be9f0a65836/Design+Reiteration+-+Wireframe+-+Balsamiq.png" alt="Elefant.ro wireframe redesign">
+        <div class="img-caption">Wireframe showing the redesigned homepage structure</div>
+      </div>
+      <div>
+        <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/32a888d2-3308-4671-bff8-611e342ae04e/cb835b8c3ea+%281%29.png" alt="Elefant.ro high fidelity Figma prototype">
+        <div class="img-caption">High fidelity Figma prototype of the redesigned homepage</div>
+      </div>
+    </div>
+    <a href="https://www.figma.com/proto/dt9QFBkypridOZBBbUAGej/Efelant---Project?node-id=0-1&t=xqcJhI3F9D0f9sg2-1" target="_blank" class="action-link">View the prototype in Figma →</a>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">What I Would Test</div>
+    <h2 class="section-title">Hypotheses worth validating.</h2>
+    <p class="section-body">I would measure task completion rate, time on task, and interaction with Book Roulette specifically. My hypothesis is that the discovery mechanic increases average session time and reduces the gap between browsing and purchasing for users who arrive without a specific title in mind.</p>
+
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">What I Took Away</div>
+    <h2 class="section-title">Visual hierarchy and conversion mechanics are inseparable.</h2>
+    <ul class="findings-list">
+      <li>Discovery features like Book Roulette address a real user behaviour that most e-commerce sites ignore entirely. Not everyone knows what they want when they arrive. Design for that person too.</li>
+      <li>Gamified discount mechanics create micro-moments of delight that directly influence purchase intent. An animated reveal beats a static banner every time.</li>
+      <li>Simplifying navigation is not about removing categories. It is about surfacing the right ones at the right moment in the user journey.</li>
+      <li>A one-day project done from genuine user frustration often produces sharper thinking than a month-long brief. The problem was real and personal. That made the solution more honest.</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="cta-strip fade-in">
+  <div class="cta-text">Want to see more work?</div>
+  <a href="index.html" class="btn-primary">Back to all projects</a>
+</div>
+
+<script>
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+const fadeEls = document.querySelectorAll('.fade-in');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+fadeEls.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

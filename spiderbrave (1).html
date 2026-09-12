@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpiderBrave Anca Crăciunică</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: #0D1B2A; font-family: 'DM Sans', sans-serif; color: #F5F0E8; cursor: none; }
+.cursor { position: fixed; width: 10px; height: 10px; background: #B8FF4F; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 24px 64px; background: rgba(13,27,42,0.92); backdrop-filter: blur(12px); border-bottom: 0.5px solid rgba(245,240,232,0.1); }
+.nav-logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: #F5F0E8; text-decoration: none; }
+.nav-logo:hover { color: #B8FF4F; }
+.nav-back { font-size: 13px; color: rgba(245,240,232,0.5); text-decoration: none; font-weight: 300; display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+.nav-back:hover { color: #B8FF4F; }
+.nav-back::before { content: '←'; }
+.hero { padding: 140px 64px 80px; border-bottom: 0.5px solid rgba(245,240,232,0.1); }
+.case-tag { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #B8FF4F; margin-bottom: 20px; font-weight: 400; }
+.uni-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(184,255,79,0.08); border: 0.5px solid rgba(184,255,79,0.25); color: #B8FF4F; font-size: 12px; padding: 6px 14px; border-radius: 100px; margin-bottom: 24px; font-weight: 300; }
+.case-title { font-family: 'DM Serif Display', serif; font-size: clamp(40px, 6vw, 72px); line-height: 1.05; letter-spacing: -2px; color: #F5F0E8; margin-bottom: 24px; }
+.case-subtitle { font-size: 20px; font-weight: 300; color: rgba(245,240,232,0.6); max-width: 640px; line-height: 1.6; margin-bottom: 56px; }
+.meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 0.5px solid rgba(245,240,232,0.12); }
+.meta-item { padding: 24px 32px; border-right: 0.5px solid rgba(245,240,232,0.12); }
+.meta-item:last-child { border-right: none; }
+.meta-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(245,240,232,0.35); margin-bottom: 8px; }
+.meta-value { font-size: 14px; color: #F5F0E8; font-weight: 400; line-height: 1.5; }
+.content { max-width: 800px; margin: 0 auto; padding: 80px 64px; }
+.section { margin-bottom: 72px; }
+.section-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #B8FF4F; margin-bottom: 20px; font-weight: 400; }
+.section-title { font-family: 'DM Serif Display', serif; font-size: 32px; color: #F5F0E8; margin-bottom: 20px; letter-spacing: -0.5px; line-height: 1.2; }
+.section-body { font-size: 16px; color: rgba(245,240,232,0.65); line-height: 1.8; font-weight: 300; margin-bottom: 20px; }
+.highlight-box { background: #111C2B; border-left: 2px solid #B8FF4F; padding: 28px 32px; margin: 32px 0; }
+.highlight-box p { font-size: 16px; color: rgba(245,240,232,0.75); line-height: 1.7; font-weight: 300; }
+.img-block { margin: 40px 0; }
+.img-block img { width: 100%; border: 0.5px solid rgba(245,240,232,0.08); display: block; }
+.img-caption { font-size: 12px; color: rgba(245,240,232,0.3); font-weight: 300; margin-top: 12px; font-style: italic; }
+.img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 40px 0; }
+.img-grid img { width: 100%; display: block; border: 0.5px solid rgba(245,240,232,0.08); }
+.video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 40px 0; border: 0.5px solid rgba(245,240,232,0.08); }
+.video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.level-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin: 40px 0; }
+.level-card { background: #111C2B; padding: 32px; position: relative; overflow: hidden; }
+.level-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #B8FF4F; opacity: 0.3; }
+.level-card:nth-child(2)::before { opacity: 0.6; }
+.level-card:nth-child(3)::before { opacity: 1; }
+.level-number { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #B8FF4F; margin-bottom: 12px; font-weight: 400; }
+.level-name { font-family: 'DM Serif Display', serif; font-size: 20px; color: #F5F0E8; margin-bottom: 12px; }
+.level-desc { font-size: 13px; color: rgba(245,240,232,0.5); font-weight: 300; line-height: 1.6; }
+.quote-block { padding: 32px 0; border-top: 0.5px solid rgba(245,240,232,0.1); border-bottom: 0.5px solid rgba(245,240,232,0.1); margin: 40px 0; }
+.quote-text { font-family: 'DM Serif Display', serif; font-size: 22px; color: #F5F0E8; line-height: 1.5; font-style: italic; margin-bottom: 12px; }
+.quote-attr { font-size: 13px; color: rgba(245,240,232,0.4); font-weight: 300; }
+.findings-list { list-style: none; margin: 24px 0; }
+.findings-list li { padding: 16px 0; border-bottom: 0.5px solid rgba(245,240,232,0.08); font-size: 15px; color: rgba(245,240,232,0.65); font-weight: 300; line-height: 1.6; display: flex; gap: 16px; }
+.findings-list li::before { content: '✦'; color: #B8FF4F; font-size: 10px; flex-shrink: 0; margin-top: 4px; }
+.action-link { display: inline-flex; align-items: center; gap: 8px; color: #B8FF4F; font-size: 14px; font-weight: 400; text-decoration: none; border-bottom: 0.5px solid rgba(184,255,79,0.4); padding-bottom: 2px; margin-top: 24px; }
+.action-link:hover { border-bottom-color: #B8FF4F; }
+.honesty-note { background: #0D1B2A; border: 0.5px solid rgba(245,240,232,0.12); padding: 28px 32px; margin: 32px 0; }
+.honesty-note p { font-size: 14px; color: rgba(245,240,232,0.45); font-weight: 300; line-height: 1.7; }
+.cta-strip { background: #111C2B; padding: 56px 64px; display: flex; justify-content: space-between; align-items: center; margin-top: 80px; }
+.cta-text { font-family: 'DM Serif Display', serif; font-size: 28px; color: #F5F0E8; }
+.btn-primary { padding: 14px 28px; background: transparent; color: #B8FF4F; font-size: 14px; font-weight: 500; border: 1.5px solid #B8FF4F; cursor: pointer; letter-spacing: 0.5px; font-family: 'DM Sans', sans-serif; text-decoration: none; display: inline-block; transition: background 0.2s, color 0.2s; }
+.btn-primary:hover { background: #B8FF4F; color: #0D1B2A; }
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+@media(max-width:768px) { nav { padding: 20px 24px; } .hero { padding: 120px 24px 60px; } .meta-grid { grid-template-columns: 1fr 1fr; } .content { padding: 48px 24px; } .level-grid { grid-template-columns: 1fr; } .img-grid { grid-template-columns: 1fr; } .cta-strip { flex-direction: column; gap: 24px; padding: 40px 24px; } }
+
+  @media (hover: none) and (pointer: coarse) {
+    .cursor, .cursor-trail { display: none !important; }
+    body { cursor: auto !important; }
+  }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<nav>
+  <a href="index.html" class="nav-logo">Anca.</a>
+  <a href="index.html" class="nav-back">All work</a>
+</nav>
+
+<div class="hero">
+  <div class="case-tag">VR Development · Serious Game · Psychology</div>
+  <div class="uni-badge">✦ University assignment</div>
+  <h1 class="case-title">SpiderBrave —<br>Exposure Therapy<br>in Virtual Reality</h1>
+  <p class="case-subtitle">A serious game built in Unreal Engine as an adjunct tool for exposure therapy, designed to help people with arachnophobia gradually confront their fear in a controlled, safe environment.</p>
+  <div class="meta-grid">
+    <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">VR Developer, Game Designer</div></div>
+    <div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value">Unreal Engine</div></div>
+    <div class="meta-item"><div class="meta-label">Context</div><div class="meta-value">University assignment, 2/3 years ago</div></div>
+    <div class="meta-item"><div class="meta-label">Area</div><div class="meta-value">Therapeutic VR, Serious Games</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="section fade-in">
+    <div class="section-label">A Note on This Project</div>
+    <h2 class="section-title">I built this before I knew how to document things properly.</h2>
+    <p class="section-body">SpiderBrave was one of my earlier projects. I was younger, more focused on building than on recording what I was building, and formal documentation was not something I thought about yet. By the time I understood its value, the project was done.</p>
+    <p class="section-body">What I can give you here is the honest story of what I made, why I made it that way, and what one real person with arachnophobia told me when they played it. Sometimes that is enough.</p>
+    <div class="honesty-note">
+      <p>This case study is reconstructed from memory and the limited materials that still exist. The thinking behind the design was sound. The documentation was not. I have since learned that those two things need to happen together.</p>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">The Research</div>
+    <h2 class="section-title">It started with a literature review, not a game engine.</h2>
+    <p class="section-body">Before writing a single line of code, I spent time reading existing research on exposure therapy and arachnophobia. Exposure therapy is a well-established psychological treatment that works by gradually and repeatedly exposing a person to the thing they fear, in a controlled environment, until the fear response diminishes.</p>
+    <p class="section-body">The key word in that definition is gradual. The research was clear that throwing someone directly into their worst fear does not work and can make things worse. The therapeutic approach depends entirely on a structured, incremental progression. That became the design principle for every decision I made.</p>
+    <div class="highlight-box">
+      <p>The game had to feel safe enough to stay in, but uncomfortable enough to actually work. That is a narrower design target than it sounds.</p>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">The Design</div>
+    <h2 class="section-title">Three levels. One direction. No going back.</h2>
+    <p class="section-body">The entire game takes place in VR. In each level, the player has one task: walk across the room to reach the other side. The spider is between them and the exit. The spider changes with each level. The task does not.</p>
+    <div class="level-grid">
+      <div class="level-card">
+        <div class="level-number">Level 01</div>
+        <div class="level-name">First Contact</div>
+        <div class="level-desc">One cartoon spider, moving slowly across the floor. Visually soft, clearly not real, no threat. The point is just to be in the same room as it and keep walking. Most people manage this.</div>
+      </div>
+      <div class="level-card">
+        <div class="level-number">Level 02</div>
+        <div class="level-name">Getting Closer</div>
+        <div class="level-desc">More realistic spider. Moves faster. Crawls as well as walks. The visual stakes increase. The task is still the same. Walk across the room. But now it requires more deliberate effort to do it.</div>
+      </div>
+      <div class="level-card">
+        <div class="level-number">Level 03</div>
+        <div class="level-name">The Real Thing</div>
+        <div class="level-desc">Multiple spiders. Highly realistic. Moving at something close to actual spider speed. Multiple directions. This is the level where the fear response is real and getting across the room is a genuine achievement.</div>
+      </div>
+    </div>
+    <div class="img-grid">
+      <div>
+        <img src="https://static.wixstatic.com/media/d26c95_78feddd1865b4eeea73c9bb5c0503cfc~mv2.jpg/v1/fill/w_705,h_397,q_90,enc_avif,quality_auto/d26c95_78feddd1865b4eeea73c9bb5c0503cfc~mv2.jpg" alt="SpiderBrave in-game screenshot">
+        <div class="img-caption">In-game environment from SpiderBrave</div>
+      </div>
+      <div>
+        <img src="https://static.wixstatic.com/media/d26c95_5d7cc2563d884cef91cb6dea3d275a1f~mv2.webp/v1/fill/w_705,h_397,q_90,enc_avif,quality_auto/d26c95_5d7cc2563d884cef91cb6dea3d275a1f~mv2.webp" alt="SpiderBrave level design">
+        <div class="img-caption">Level design showing the graduated exposure environment</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">Watch It</div>
+    <h2 class="section-title">See SpiderBrave in action.</h2>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/HMo2LbiQF_A" title="SpiderBrave demonstration" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">User Feedback</div>
+    <h2 class="section-title">One person who actually had arachnophobia played it.</h2>
+    <p class="section-body">I tested SpiderBrave with other students and friends. Most of them found it interesting, occasionally uncomfortable at level three, but manageable. One person in the group actually had arachnophobia.</p>
+    <div class="quote-block">
+      <div class="quote-text">It was easier to start with the cartoon spider.</div>
+      <div class="quote-attr">A participant with arachnophobia, during informal testing</div>
+    </div>
+    <p class="section-body">That one sentence told me the graduated design was working as intended. The cartoon entry point was not a compromise. It was the reason someone with a real phobia was able to engage with the game at all rather than stopping immediately. Starting small is not a lesser version of the experience. It is the whole point.</p>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">What I Took Away</div>
+    <h2 class="section-title">Research before development is not optional. It is the brief.</h2>
+    <ul class="findings-list">
+      <li>The literature review was not background reading. It was the design specification. Every decision cartoon first, single spider first, slow speed first came directly from what the research said about how exposure therapy actually works.</li>
+      <li>Graduated progression is everything in therapeutic design. The jump between levels has to feel achievable at every step, or the whole system fails.</li>
+      <li>The simplest possible task walk across the room turned out to be exactly the right mechanic. It kept the focus on the fear, not on game controls or objectives.</li>
+      <li>Document your work as you go. Not after. Not when you remember. As you go. I learned this the hard way and it directly changed how I approached BioVRium.</li>
+    </ul>
+    <a href="https://youtu.be/HMo2LbiQF_A" target="_blank" class="action-link">Watch the demo on YouTube →</a>
+  </div>
+
+</div>
+
+<div class="cta-strip fade-in">
+  <div class="cta-text">Want to see more work?</div>
+  <a href="index.html" class="btn-primary">Back to all projects</a>
+</div>
+
+<script>
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+const fadeEls = document.querySelectorAll('.fade-in');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+fadeEls.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

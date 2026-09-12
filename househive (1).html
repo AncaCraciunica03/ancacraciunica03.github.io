@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HouseHive Anca Crăciunică</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: #0D1B2A; font-family: 'DM Sans', sans-serif; color: #F5F0E8; cursor: none; }
+.cursor { position: fixed; width: 10px; height: 10px; background: #B8FF4F; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 24px 64px; background: rgba(13,27,42,0.92); backdrop-filter: blur(12px); border-bottom: 0.5px solid rgba(245,240,232,0.1); }
+.nav-logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: #F5F0E8; text-decoration: none; }
+.nav-logo:hover { color: #B8FF4F; }
+.nav-back { font-size: 13px; color: rgba(245,240,232,0.5); text-decoration: none; font-weight: 300; display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+.nav-back:hover { color: #B8FF4F; }
+.nav-back::before { content: '←'; }
+.hero { padding: 140px 64px 80px; border-bottom: 0.5px solid rgba(245,240,232,0.1); }
+.case-tag { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #B8FF4F; margin-bottom: 20px; font-weight: 400; }
+.uni-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(184,255,79,0.08); border: 0.5px solid rgba(184,255,79,0.25); color: #B8FF4F; font-size: 12px; padding: 6px 14px; border-radius: 100px; margin-bottom: 24px; font-weight: 300; }
+.case-title { font-family: 'DM Serif Display', serif; font-size: clamp(40px, 6vw, 72px); line-height: 1.05; letter-spacing: -2px; color: #F5F0E8; margin-bottom: 24px; }
+.case-subtitle { font-size: 20px; font-weight: 300; color: rgba(245,240,232,0.6); max-width: 640px; line-height: 1.6; margin-bottom: 56px; }
+.meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 0.5px solid rgba(245,240,232,0.12); }
+.meta-item { padding: 24px 32px; border-right: 0.5px solid rgba(245,240,232,0.12); }
+.meta-item:last-child { border-right: none; }
+.meta-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(245,240,232,0.35); margin-bottom: 8px; }
+.meta-value { font-size: 14px; color: #F5F0E8; font-weight: 400; line-height: 1.5; }
+.content { max-width: 800px; margin: 0 auto; padding: 80px 64px; }
+.section { margin-bottom: 72px; }
+.section-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #B8FF4F; margin-bottom: 20px; font-weight: 400; }
+.section-title { font-family: 'DM Serif Display', serif; font-size: 32px; color: #F5F0E8; margin-bottom: 20px; letter-spacing: -0.5px; line-height: 1.2; }
+.section-body { font-size: 16px; color: rgba(245,240,232,0.65); line-height: 1.8; font-weight: 300; margin-bottom: 20px; }
+.highlight-box { background: #111C2B; border-left: 2px solid #B8FF4F; padding: 28px 32px; margin: 32px 0; }
+.highlight-box p { font-size: 16px; color: rgba(245,240,232,0.75); line-height: 1.7; font-weight: 300; }
+.img-block { margin: 40px 0; }
+.img-block img { width: 100%; border: 0.5px solid rgba(245,240,232,0.08); display: block; }
+.img-caption { font-size: 12px; color: rgba(245,240,232,0.3); font-weight: 300; margin-top: 12px; font-style: italic; }
+.img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 40px 0; }
+.img-grid img { width: 100%; display: block; border: 0.5px solid rgba(245,240,232,0.08); }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 32px 0; }
+.col-box { background: #111C2B; padding: 32px; }
+.col-title { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(245,240,232,0.4); margin-bottom: 16px; }
+.col-body { font-size: 14px; color: rgba(245,240,232,0.6); font-weight: 300; line-height: 1.7; }
+.findings-list { list-style: none; margin: 24px 0; }
+.findings-list li { padding: 16px 0; border-bottom: 0.5px solid rgba(245,240,232,0.08); font-size: 15px; color: rgba(245,240,232,0.65); font-weight: 300; line-height: 1.6; display: flex; gap: 16px; }
+.findings-list li::before { content: '✦'; color: #B8FF4F; font-size: 10px; flex-shrink: 0; margin-top: 4px; }
+.action-link { display: inline-flex; align-items: center; gap: 8px; color: #B8FF4F; font-size: 14px; font-weight: 400; text-decoration: none; border-bottom: 0.5px solid rgba(184,255,79,0.4); padding-bottom: 2px; margin-top: 24px; }
+.action-link:hover { border-bottom-color: #B8FF4F; }
+.cta-strip { background: #111C2B; padding: 56px 64px; display: flex; justify-content: space-between; align-items: center; margin-top: 80px; }
+.cta-text { font-family: 'DM Serif Display', serif; font-size: 28px; color: #F5F0E8; }
+.btn-primary { padding: 14px 28px; background: transparent; color: #B8FF4F; font-size: 14px; font-weight: 500; border: 1.5px solid #B8FF4F; cursor: pointer; letter-spacing: 0.5px; font-family: 'DM Sans', sans-serif; text-decoration: none; display: inline-block; transition: background 0.2s, color 0.2s; }
+.btn-primary:hover { background: #B8FF4F; color: #0D1B2A; }
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+@media(max-width:768px) { nav { padding: 20px 24px; } .hero { padding: 120px 24px 60px; } .meta-grid { grid-template-columns: 1fr 1fr; } .content { padding: 48px 24px; } .two-col { grid-template-columns: 1fr; } .img-grid { grid-template-columns: 1fr; } .cta-strip { flex-direction: column; gap: 24px; padding: 40px 24px; } }
+
+  @media (hover: none) and (pointer: coarse) {
+    .cursor, .cursor-trail { display: none !important; }
+    body { cursor: auto !important; }
+  }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<nav>
+  <a href="index.html" class="nav-logo">Anca.</a>
+  <a href="index.html" class="nav-back">All work</a>
+</nav>
+
+<div class="hero">
+  <div class="case-tag">UX Design · Security · Real Estate</div>
+  <div class="uni-badge">✦ University module project</div>
+  <h1 class="case-title">HouseHive —<br>A New Standard<br>in Floorplan Security</h1>
+  <p class="case-subtitle">Here is something nobody seems to talk about. When you browse a property listing online, the floorplan is right there. Free. No verification. No friction. Anyone can see the exact layout of someone's home. That bothered me. So I did something about it.</p>
+  <div class="meta-grid">
+    <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">UX/UI Designer</div></div>
+    <div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value">Figma, Anima, Balsamiq</div></div>
+    <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-value">8+ weeks</div></div>
+    <div class="meta-item"><div class="meta-label">Industry</div><div class="meta-value">Real Estate</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="section fade-in">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">The real estate industry has a quiet security problem.</h2>
+    <p class="section-body">Detailed floorplans, freely accessible to anyone with an internet connection, are a gift to people who should not have them. Meanwhile, the same platforms handing over this information use dark patterns and impenetrable privacy policies to obscure what they do with yours.</p>
+    <p class="section-body">HouseHive was my attempt to imagine what an ethical, secure property platform could actually look like.</p>
+    <div class="img-block">
+      <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/a06857f1-78c4-4aa9-823a-4d126adef5c0/xhskMX17JFBAM4fu.jpg" alt="HouseHive wireframes overview">
+      <div class="img-caption">Early wireframes showing the home page, floorplan restriction screen, and search results</div>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">The Research</div>
+    <h2 class="section-title">Users wanted security. They just did not expect it to feel easy.</h2>
+    <p class="section-body">Surveys and competitive analysis of existing property platforms revealed a consistent pattern. Users were aware of the security risk but assumed that adding verification would create a frustrating experience. The design challenge was to prove them wrong.</p>
+    <div class="highlight-box">
+      <p>Users expressed concern over the ease of access to detailed floorplans without sufficient verification, but equally feared that security measures would make the platform unusable. The solution had to be both secure and seamless. Not one or the other.</p>
+    </div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">The Solution</div>
+    <h2 class="section-title">Verification that does not feel like a barrier.</h2>
+    <p class="section-body">HouseHive introduced OTP authentication for floorplan access. Simple, familiar, fast. You verify once, you see the floorplan. No verification, no floorplan. The security is real but the friction is minimal.</p>
+    <p class="section-body">Beyond that, every piece of communication in HouseHive was rewritten from scratch. Privacy policies in plain English. Key clauses highlighted. No misleading copy. No dark patterns. Just honest information presented clearly.</p>
+    <div class="two-col">
+      <div class="col-box">
+        <div class="col-title">Security Layer</div>
+        <div class="col-body">OTP authentication for floorplan access. Account verification before detailed property data is revealed. Privacy by default at every step.</div>
+      </div>
+      <div class="col-box">
+        <div class="col-title">Ethical Communication</div>
+        <div class="col-body">Privacy policies in plain language. No dark patterns. Key sections highlighted. Essential property details kept accessible without unnecessary gating.</div>
+      </div>
+    </div>
+    <div class="img-grid">
+      <div>
+        <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/744828a1-47c1-4193-b3f0-5d1ad91e49d2/WjfgEoaAnqaZnAB9.png" alt="Floorplan restriction screen wireframe">
+        <div class="img-caption">Wireframe of the floorplan restriction and OTP screen</div>
+      </div>
+      <div>
+        <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/70e60e68-c175-4012-acaf-b4725a996b8e/GuExoHgBvzWJ2IcB.jpg" alt="Sign up page design">
+        <div class="img-caption">Sign-up and account creation flow</div>
+      </div>
+    </div>
+    <div class="img-grid">
+      <div>
+        <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/53782812-4a32-4cae-ab88-2dde4fbb81b9/VdsqioZVAnC36ycf.png" alt="High fidelity search results">
+        <div class="img-caption">High fidelity prototype search results</div>
+      </div>
+      <div>
+        <img src="https://images.squarespace-cdn.com/content/v1/677bf98ff2bd93722c9343e4/367a87fe-cab9-428c-999c-1cff9d36ef5f/Screenshot+2025-01-10+at+20.22.12.png" alt="High fidelity mobile view">
+        <div class="img-caption">High fidelity prototype mobile property listing</div>
+      </div>
+    </div>
+    <a href="https://www.figma.com/proto/USgUxxSlQ4jK6YZShJOG3Y/Zoopla-Case---Ass?node-id=45-172&p=f&t=4Oz7xlctR3lQny6n-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=2%3A4&show-proto-sidebar=1" target="_blank" class="action-link">View the full prototype in Figma →</a>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">What Testing Showed</div>
+    <h2 class="section-title">Security and satisfaction, together.</h2>
+    <p class="section-body">Users felt more secure. They also found the platform more trustworthy, which turns out to be a competitive advantage in an industry that has historically treated user trust as an afterthought. Navigation was smoother. Satisfaction was higher. And nobody complained that the verification step was too much effort.</p>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-label">What I Took Away</div>
+    <h2 class="section-title">Security and usability are not opposites.</h2>
+    <ul class="findings-list">
+      <li>They only feel that way when security is treated as a barrier rather than a feature. Frame it as protection and users welcome it.</li>
+      <li>Ethical communication is a design decision, not a legal formality. Most platforms treat privacy policies as compliance documents. They should be product features.</li>
+      <li>Users trust platforms that respect their intelligence. Plain language outperforms legal jargon every time.</li>
+      <li>Most property platforms are leaving an enormous amount of user trust on the table. The first one to change that has a genuine competitive advantage.</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="cta-strip fade-in">
+  <div class="cta-text">Want to see more work?</div>
+  <a href="index.html" class="btn-primary">Back to all projects</a>
+</div>
+
+<script>
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+const fadeEls = document.querySelectorAll('.fade-in');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+fadeEls.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
